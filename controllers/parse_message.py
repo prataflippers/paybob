@@ -6,6 +6,9 @@ from loan_handler import loan_handler
 from pay_handler import pay_handler
 from retract_handler import retract_handler
 
+import Database
+db = Database.Database()
+
 def parse_handler(user_id, message):
     '''
     Passes on the user request to the specific controller
@@ -14,7 +17,7 @@ def parse_handler(user_id, message):
     RETURN TYPE: void
     '''
     command = message.split(' ')[0][1:]
-    arguments = message.split(' ', 1)[1] if len(message.split(' ', 1)) > 1 else None
+    arguments = message.split(' ')[1:] if len(message.split(' ')) > 1 else None
     if command == "acknowledge":
         acknowledge_handler(user_id, arguments)
     elif command == "add":

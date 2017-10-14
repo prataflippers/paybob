@@ -7,7 +7,7 @@ import math
 def isReceiving(transactionAmount):
   if transactionAmount == 0:
     return None # should not happen
-  else: 
+  else:
     return transactionAmount > 0
 
 '''

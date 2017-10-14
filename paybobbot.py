@@ -17,7 +17,6 @@ def handler(msg):
     db.setup
     if (db.getUsername(chat_id) == None):
         db.addUser(msg["chat"]["username"], chat_id)
-        print(db.getUsername(chat_id))
 
     if content_type == 'text':
         parse_handler(chat_id, msg['text'])
