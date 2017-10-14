@@ -31,6 +31,10 @@ Boolean doesReceiptExist(String payerUsername, String payeeUsername);
 //the amount is positive if payer paid and negative if payee paid
 [(Description, Amount)] transactionHistory(String payerUsername, String payeeUsername);
 
+//returns the amount user owes to a person
+//if person owes money to me, amount will be negative
+Amount moneyOwed (String username);
+
 //returns a list of payments the user has made in the past
 [(Description, Amount, paidTo)] payingHistory(String username);
 
