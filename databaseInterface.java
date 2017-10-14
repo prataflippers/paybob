@@ -2,6 +2,10 @@
 
 void addUser(String username, int chatId);
 
+void getChatID(String username);
+
+void getUsername(int chatId);
+
 //when payee says that someone owes him money
 void makeReceipt(String payerUsername, String payeeUsername, int amount, String description);
 
