@@ -148,7 +148,7 @@ class Database:
 
         listOfLoaners = []
         for row in rows:
-            print row[1]
+            print(row[1])
             listOfLoaners.append((row[1], row[3]))
         return listOfLoaners
 
@@ -302,7 +302,7 @@ class Database:
         cursor.execute(selectAll)
         rows = cursor.fetchall()
         for row in rows:
-            print row
+            print(row)
 
 
     #returns a list of all the people the 'username' owes money to and how much
