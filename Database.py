@@ -195,6 +195,11 @@ class Database:
         cursor.execute(findEntryinTotals, arguments)
         rows = cursor.fetchall()
 
+        if rows != []:
+            return rows[0][0]
+        else:
+            return None
+
     def addReceipt(self, payerUsername, payeeUsername, description, amount):
         # Make entry in the receipt table
         makeReceipt = "INSERT INTO receipt(payer, payee, description, amount) VALUES (?, ?, ?, ?);"
@@ -314,16 +319,19 @@ def main():
     db.addUser("Haozhe", 123)
     db.addUser("Shitian", 132)
     db.addUser("Junkai", 321)
-    db.addReceipt("Suyash", "Haozhe", "blowjob", 20)
-    db.addReceipt("Haozhe", "Suyash", "Paid for Suyash's blowjob", 20)
+    db.addReceipt("Suyash", "Haozhe", "bought a macbook", 20)
+    db.addReceipt("Haozhe", "Suyash", "Paid for Suyash's windows pc", 20)
     db.addReceipt("Shitian", "Haozhe", "Paid for HZ's lunch", 2)
     db.decrementReceipt("Shitian", "Haozhe", "paid ST back $2", 2)
+
     db.printTable("total")
     print(" ")
     db.printTable("receipt")
     print(" ")
     db.paidEverything("Haozhe", "Shitian")
     db.printTable("receipt")
+    print(" ")
+    db.printTable("total")
 
 
 if __name__ == '__main__':
