@@ -45,6 +45,18 @@ class Database:
                         );"""
         self.create_table(self.conn, makeReceipts)
 
+    def checkReciptsTable(self):
+        checkCommand = "SELECT * FROM receipt;"
+        arguments = ()
+        cursor = self.conn.cursor()
+        cursor.execute(checkCommand, arguments)
+
+        rows = cursor.fetchall()
+
+        if rows != []:
+            print(rows[0])
+        else:
+            return None
 
     def makeTotalsTable(self):
         makeTotals = """CREATE TABLE IF NOT EXISTS total (
@@ -64,6 +76,7 @@ class Database:
 
         cursor = self.conn.cursor()
         cursor.execute(addUser, arguments)
+
 
 
     def getChatID(self, name):
@@ -99,7 +112,7 @@ class Database:
     #selfHistory returns a list of [description, othersName, amount]
     #[description, othersName, amount(positive for receiving, negative for  giving)]
     def selfHistory(self, id):
-         selectCommand = "SELECT * FROM receipt WHERE payer=? OR payee =? ORDER BY id"
+         selectCommand = "SELECT * FROM receipt WHERE payer=? OR payee =?"
          arguments = (id, id)
 
          cursor = self.conn.cursor()
@@ -110,13 +123,15 @@ class Database:
          if rows != []:
              for row in rows:
                  if row[1] == id:
-                     list.insert(row[3], row[2], row[4])
-
+                     list.append((str(row[3]), str(row[2]), row[4]))
                  else:
                      amount = -row[4]
-                     list.insert(row[3], row[1], amount)
+                     list.append((str(row[3]), str(row[1]), amount))
+
          else:
              return None
+
+         return list
 #==============================================================================#
 
 
@@ -153,6 +168,12 @@ class Database:
         cursor = self.conn.cursor()
         cursor.execute(addCommand, arguments)
 
+    def addReceipt(self, payerUsername, payeeUsername, description, amount):
+        # Make entry in the receipt table
+        makeReceipt = "INSERT INTO receipt(payer, payee, description, amount) VALUES (?, ?, ?, ?);"
+        arguments = (payerUsername, payeeUsername, description, amount)
+        cursor = self.conn.cursor()
+        cursor.execute(makeReceipt, arguments)
 
 
 #==============================================================================#
@@ -164,15 +185,13 @@ def main():
     db = Database()
     db.setup()
     db.addUser("Suyash", 231)
-    print(db.getChatID("Suyash"))
-    print(db.getUsername(231))
-    print(db.getChatID("Suysdash"))
-    print(db.getUsername(12223))
-    db.addEntryToTotals("Suyash", "Haozhe", 396.23)
-    print(db.owesMoneyTo("Suyash", "Haozhe"))
-    print(db.owesMoneyTo("Haozhe", "Suyash"))
-    print(db.owesMoneyTo("Shitian", "Suyash"))
-    print(db.owesMoneyTo("Haozhe", "Junkai"))
+    db.addUser("Haozhe", 123)
+    db.addUser("Shitian", 132)
+    db.addUser("Junkai", 321)
+    db.addReceipt("Suyash", "Haozhe", "blowjob", 20)
+    db.addReceipt("Haozhe", "Suyash", "blowjob", 20)
+    db.addReceipt("Shitian", "Haozhe", "Rice", 2)
+    print(db.selfHistory("Haozhe"))
 
 
 if __name__ == '__main__':
