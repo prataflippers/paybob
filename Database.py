@@ -63,6 +63,7 @@ class Database:
 
         cursor = self.conn.cursor()
         cursor.execute(addUser, arguments)
+        self.conn.commit()
 
 
     def getChatID(self, name):
@@ -128,6 +129,8 @@ class Database:
         cursor = self.conn.cursor()
         cursor.execute(addCommand, arguments)
 
+        self.conn.commit()
+
     # Used when payer pays payee x amount. so it reduces how much the payee owes
     def updateTotals(self, payer, payee, amount):
         updateCommand = "UPDATE total SET amount = amount + ? WHERE id = ?;"
@@ -145,6 +148,8 @@ class Database:
             # else:
                 #NO Entry exists between the two people
 
+        self.conn.commit()
+
 
     def getTotalsEntryId(self, payer, payee):
         findEntryinTotals = "SELECT id FROM total WHERE payer=? AND payee=?"
@@ -157,6 +162,7 @@ class Database:
             return rows[0][0]
         else:
             return None
+
 
     # When: 1. Payer pays back payee.
     #       2. Payer lends payee money
@@ -185,13 +191,13 @@ class Database:
         else:
             self.addEntryToTotals(payer, payee, amount)
 
+        self.conn.commit()
+
     def printTable(self, tableName):
         selectAll = "SELECT * FROM {}".format(tableName)
         cursor = self.conn.cursor()
-        cursor.execute(selectAll)
-
+        cursor.execute(selectAll)]
         rows = cursor.fetchall()
-
         for row in rows:
             print row
 
