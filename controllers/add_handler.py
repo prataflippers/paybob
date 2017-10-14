@@ -1,6 +1,7 @@
 import Database
 import telepot
 
+# Messages
 USAGE_MESSAGE = "Usage: `/add <user> <amount>` to add a someone who owes you $$$"
 USER_NOT_FOUND = "Either specified user does not exist or is currently not using the bot. Please request for him/her to add @paybob"
 
@@ -13,14 +14,14 @@ def add_handler(user_id, arguments):
     print("Current user: " + db.getUsername(user_id))
     print("Other user: " + arguments[0])
 
-    # Test if other user exists
+    # Handle add
     try:
         if (len(arguments) < 2):
             paybot.sendMessage(user_id, USAGE_MESSAGE)
         elif (db.getChatID(arguments[0]) == None):
             paybot.sendMessage(user_id, USER_NOT_FOUND)
         elif(float(arguments[1])):
-            print("Execute add")
+            paybot.sendMessage("Successfully added %s to %s" % (arguments[1], arguments[0]))
         else:
             paybot.sendMessage(user_id, USAGE_MESSAGE)
     except:
