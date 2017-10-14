@@ -25,7 +25,7 @@ Boolean doesReceiptExist(String payerUsername, String payeeUsername);
 
 //returns a list of transactions between payer and payee.
 //the amount is positive if payer paid and negative if payee paid
-[(Description, Amount)] payingHistory(String payerUsername, String payeeUsername);
+[(Description, Amount)] transactionHistory(String payerUsername, String payeeUsername);
 
 //returns a list of payments the user has made in the past
 [(Description, Amount, paidTo)] payingHistory(String username);
