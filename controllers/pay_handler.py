@@ -10,18 +10,18 @@ def pay_handler(user_id, arguments):
     paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
     db = Database.Database()
 
-    # For testing
-    print("Current user: " + db.getUsername(user_id))
-    print("Other user: " + arguments[0])
-
     # Handle paying
+    payee = arguments[0]
+    amount = arguments[1]
     try:
         if (len(arguments) < 2):
             paybot.sendMessage(user_id, USAGE_MESSAGE)
-        elif (db.getChatID(arguments[0]) == None):
+        elif (db.getChatID(payee) == None):
             paybot.sendMessage(user_id, USER_NOT_FOUND)
-        elif(float(arguments[1])):
-            paybot.sendMessage("Successfully payed %s to %s" % (arguments[1], arguments[0]))
+        elif(float(amount)):
+            payee_id = db.getChatID(payee)
+            paybot.sendMessage(payee_id, "To acknowledge %s's payment of %s, type `/acknowledge <user>`", (payee, amount))
+            paybot.sendMessage(user_id, "Waiting for acknowledgement of payment of %s to %s" % (amount, payee))
         else:
             paybot.sendMessage(user_id, USAGE_MESSAGE)
     except:
