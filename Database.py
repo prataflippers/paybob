@@ -95,6 +95,9 @@ class Database:
         else:
             return None
 
+#==============================================================================#
+#===============================TRANSACTION COMMANDS===========================#
+
     def owesMoneyTo(self, payer, payee):
 
         findEntry = "SELECT amount FROM total WHERE payer=? AND payee=?"
@@ -121,13 +124,49 @@ class Database:
 
     def addEntryToTotals(self, payer, payee, amount):
         addCommand = "INSERT INTO total(payer, payee, amount) VALUES (?, ?, ?);"
-
-
         arguments = (payer, payee, amount)
-
         cursor = self.conn.cursor()
         cursor.execute(addCommand, arguments)
 
+    # Used when payer pays payee x amount. so it reduces how much the payee owes
+    def updateTotals(self, payer, payee, amount):
+        updateCommand = "UPDATE total SET amount = amount + ? WHERE id = ?;"
+        entryId = self.getTotalsEntryId(payer, payee)
+        cursor = self.conn.cursor()
+
+        if (entryId != None):
+            arguments = (amount, entryId)
+            cursor.execute(updateCommand, arguments)
+        else:
+            entryId = self.getTotalsEntryId(payee, payer)
+            if (entryId != None):
+                arguments = (-1 * amount, entryId)
+                cursor.execute(updateCommand, arguments)
+            # else:
+                #NO Entry exists between the two people
+
+
+    def getTotalsEntryId(self, payer, payee):
+        findEntryinTotals = "SELECT id FROM total WHERE payer=? AND payee=?"
+        arguments = (payer, payee)
+        cursor = self.conn.cursor()
+        cursor.execute(findEntryinTotals, arguments)
+        rows = cursor.fetchall()
+
+        if rows != []:
+            return rows[0][0]
+        else:
+            return None
+
+    def printTable(self, tableName):
+        selectAll = "SELECT * FROM {}".format(tableName)
+        cursor = self.conn.cursor()
+        cursor.execute(selectAll)
+
+        rows = cursor.fetchall()
+
+        for row in rows:
+            print row
 
 
 #==============================================================================#
@@ -142,12 +181,18 @@ def main():
     print(db.getUsername(231))
     print(db.getChatID("Suysdash"))
     print(db.getUsername(12223))
-    db.addEntryToTotals("Suyash", "Haozhe", 396.23)
+    # db.addEntryToTotals("Suyash", "Haozhe", 396.23)
     print(db.owesMoneyTo("Suyash", "Haozhe"))
     print(db.owesMoneyTo("Haozhe", "Suyash"))
     print(db.owesMoneyTo("Shitian", "Suyash"))
     print(db.owesMoneyTo("Haozhe", "Junkai"))
+    db.addReceipt("Haozhe", "Junkai", "Firecracker Chicken", 4.50)
+    db.addReceipt("Haozhe", "Junkai", "Dabao", 4.50)
+    db.addReceipt("Junkai", "Haozhe", "Dabao", 2)
 
+    db.printTable("receipt")
+    print("  ")
+    db.printTable("total")
 
 if __name__ == '__main__':
     main()
