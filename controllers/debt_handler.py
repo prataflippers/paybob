@@ -8,9 +8,12 @@ def debt_handler(user_id, other_user, amount):
     bot = telepot.Bot(token)
     # amount = db.moneyOwed(other_user)
     if amount > 0:
+        print("")
       # send_message(user_id, "I owe this person $" + amount)
     elif amount < 0:
+        print("")
       # amount *= -1
       # send_message(user_id, "This person owes me $" + amount)
-    else 
+    else:
+        print("")
       # send_message(user_id, "No money owed here")

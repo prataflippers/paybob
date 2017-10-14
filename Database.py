@@ -132,8 +132,6 @@ class Database:
 
 #==============================================================================#
 
-    # def makeReceipt(payerUsername, payeeUsername, amount, description)
-
 def main():
 
     # TESTS
