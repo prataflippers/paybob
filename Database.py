@@ -63,6 +63,7 @@ class Database:
 
         cursor = self.conn.cursor()
         cursor.execute(addUser, arguments)
+        self.conn.commit()
 
 
     def getChatID(self, name):
@@ -127,6 +128,7 @@ class Database:
 
         cursor = self.conn.cursor()
         cursor.execute(addCommand, arguments)
+        self.conn.commit()
 
 
 
