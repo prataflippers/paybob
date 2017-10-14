@@ -11,10 +11,10 @@ def acknowledge_handler(user_id, arguments):
     db = Database.Database()
 
     # Handle acknowledgement
-    payer = arguments[0]
-    payee = db.getUsername(user_id)
-    amount = arguments[1]
     try:
+        payee = db.getUsername(user_id)
+        payer = arguments[0]
+        amount = arguments[1]
         if (len(arguments) < 2):
             paybot.sendMessage(user_id, USAGE_MESSAGE)
         elif (db.getChatID(payee) == None):

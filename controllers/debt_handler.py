@@ -13,10 +13,9 @@ def debt_handler(user_id, arguments):
 
     # Display all debt
     if (arguments == None):
-        allLoaners = db.owesToList(payer)
+        allLoaners = db.owesMoneyTo(payer)
         allLoans = "" if len(allLoaners) > 0 else "Clean slate!!!"
         for loaner in allLoaners:
-            print ("Loaner: " + loaner)
             debtOwed = db.getTotalsEntryId(payer, loaner[0])
             allLoans += print_debt(payer, loaner, debtOwed)
         paybot.sendMessage(user_id, allLoans)
