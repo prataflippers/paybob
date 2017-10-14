@@ -39,15 +39,15 @@ class Database:
         addUser = """INSERT INTO user(username, chatID)
                      VALUES (?, ?);"""
 
-        user = (username, chatId,)
+        arguments = (username, chatId,)
 
         cursor = self.conn.cursor()
-        cursor.execute(addUser, user)
+        cursor.execute(addUser, arguments)
 
 
     def getChatID(self, name):
 
-        selectCommand = "SELECT username FROM user WHERE username=?"
+        selectCommand = "SELECT chatID FROM user WHERE username=?"
         arguments = (name,)
 
         cursor = self.conn.cursor()
@@ -55,16 +55,34 @@ class Database:
 
         rows = cursor.fetchall()
 
-        for row in rows:
-            print(row)
+        if rows != []:
+            return rows[0][0]
+        else:
+            return None
 
-    # def getUsername(chatId):
+    def getUsername(self, chatId):
+
+        selectCommand = "SELECT username FROM user WHERE chatID=?"
+        arguments = (chatId,)
+
+        cursor = self.conn.cursor()
+        cursor.execute(selectCommand, arguments)
+
+        rows = cursor.fetchall()
+
+        if rows != []:
+            return rows[0][0]
+        else:
+            return None
 
 def main():
     db = Database()
     db.setup()
     db.addUser("Suyash", 231)
-    db.getChatID("Suyash")
+    print(db.getChatID("Suyash"))
+    print(db.getUsername(231))
+    print(db.getChatID("Suysdash"))
+    print(db.getUsername(12223))
 
 
 if __name__ == '__main__':
