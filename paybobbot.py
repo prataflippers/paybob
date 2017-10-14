@@ -14,7 +14,7 @@ def handler(msg):
 
     # Add user to database if s/he does not exist
     db = Database()
-    db.setup
+    db.setup()
     if (db.getUsername(chat_id) == None):
         db.addUser(msg["chat"]["username"], chat_id)
 
