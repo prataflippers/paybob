@@ -1,6 +1,5 @@
 import json
 import requests
-import time
 import urllib
 import controllers.parse_message as parser
 
@@ -98,11 +97,11 @@ def send_message(text, chat_id):
 def main():
     last_update_id = None
     while True:
-        updates = get_updates(last_update_id)
-        if len(updates["result"]) > 0:
-            last_update_id = get_last_update_id(updates) + 1
-            echo_all(updates)
-        time.sleep(0.5)
+        update = get_updates(last_update_id)
+        if len(update["result"]) > 0:
+            last_update_id = get_last_update_id(update) + 1
+            echo_all(update)
+            parser.parse_handler(update["result"])
 
 
 if __name__ == '__main__':
