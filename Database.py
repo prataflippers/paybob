@@ -174,7 +174,6 @@ class Database:
         entryId = self.getTotalsEntryId(payer, payee)
         cursor = self.conn.cursor()
 
-
         if (entryId != None):
             arguments = (amount, entryId)
             cursor.execute(updateCommand, arguments)
