@@ -13,8 +13,7 @@ def handler(msg):
 
     if content_type == 'text':
         paybot.sendMessage(chat_id, msg['text'])
-        print(msg)
-        parser.parse_handler(msg)
+        parser.parse_handler(chat_id, msg['text'])
 
 # Run loop
 MessageLoop(paybot, handler).run_as_thread()
