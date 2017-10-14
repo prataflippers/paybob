@@ -1,11 +1,11 @@
-def parse_handler(update):
+def parse_handler(message):
     '''
     Passes on the user request to the specific controller
     ARGUMENTS:
-    update: JSON
+    message: string
     RETURN TYPE: void
     '''
-    text = update[0]["message"]["text"]
+    text = message["text"]
     command = text.split(' ')[0][1:]
     argument = text.split(' ', 1)[1] if len(text.split(' ', 1))>1 else None
     if command == "add":

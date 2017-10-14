@@ -1,7 +1,6 @@
 import json
 import requests
 import urllib
-import controllers.parse_message as parser
 
 TOKEN = "452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ"
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
@@ -101,7 +100,6 @@ def main():
         if len(update["result"]) > 0:
             last_update_id = get_last_update_id(update) + 1
             echo_all(update)
-            parser.parse_handler(update["result"])
 
 
 if __name__ == '__main__':
