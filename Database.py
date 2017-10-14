@@ -21,8 +21,8 @@ class Database:
 
     def setup(self):
         self.makeUsers()
-        self.makeReceipts()
-        self.makeTotals()
+        self.makeReceiptsTable()
+        self.makeTotalsTable()
 
     def makeUsers(self):
         makeUserandIDtable = """CREATE TABLE IF NOT EXISTS user (
@@ -33,21 +33,25 @@ class Database:
         self.create_table(self.conn, makeUserandIDtable)
 
 
-    def makeReceipts(self):
+    def makeReceiptsTable(self):
         makeReceipts = """CREATE TABLE IF NOT EXISTS receipt (
                             id Integer PRIMARY KEY AUTOINCREMENT,
                             payer Integer NOT NULL,
                             payee Integer NOT NULL,
                             description Text,
-                            amount Integer NOT NULL
-                            ); """
+                            amount Float NOT NULL
+                        );"""
         self.create_table(self.conn, makeReceipts)
 
 
-    def makeTotals(self):
-        makeTotals = ""
+    def makeTotalsTable(self):
+        makeTotals = """CREATE TABLE IF NOT EXISTS total (
+                                id Integer PRIMARY KEY AUTOINCREMENT,
+                                payer Integer NOT NULL,
+                                payee Integer NOT NULL,
+                                amount Float NOT NULL
+                    );"""
         self.create_table(self.conn, makeTotals)
-
 #=============================== USER COMMANDS ================================#
 
     def addUser(self, username, chatId):
@@ -90,9 +94,30 @@ class Database:
         else:
             return None
 
+    #selfHistory returns a list of [description, othersName, amount]
+    #[description, othersName, amount(positive for receiving, negative for  giving)]
+    def selfHistory(self, id):
+         selectCommand = "SELECT * FROM receipt WHERE payer=? OR payee =? ORDER BY id"
+         arguments = (id, id)
+
+         cursor = self.conn.cursor()
+         cursor.execute(selectCommand, arguments)
+
+         rows = cursor.fetchall()
+         list = []
+         if rows != []:
+             for row in rows:
+                 if row[1] == id:
+                     list.insert(row[3], row[2], row[4])
+
+                 else:
+                     amount = -row[4]
+                     list.insert(row[3], row[1], amount)
+         else:
+             return None
 #==============================================================================#
 
-    def makeReceipt(payerUsername, payeeUsername, amount, description)
+    #def makeReceipt(payerUsername, payeeUsername, amount, description):
 
 def main():
 
