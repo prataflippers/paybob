@@ -158,6 +158,33 @@ class Database:
         else:
             return None
 
+    # When: 1. Payer pays back payee.
+    #       2. Payer lends payee money
+    def addReceipt(self, payer, payee, description, amount):
+
+        # Make entry in the receipt table
+        makeReceipt = "INSERT INTO receipt(payer, payee, description, amount) VALUES (?, ?, ?, ?);"
+        arguments = (payer, payee, description, amount)
+        cursor = self.conn.cursor()
+        cursor.execute(makeReceipt, arguments)
+
+        # Check if a totals entry exists between the two users
+        entryId = -1
+        entryFound = self.getTotalsEntryId(payer, payee)
+        if entryFound != None:
+            entryId = entryFound
+        else:
+            entryFound = self.getTotalsEntryId(payee, payer)
+            if entryFound != None:
+                entryId = entryFound
+
+        entryExists = (entryId != -1)
+        print(entryExists)
+        if entryExists:
+            self.updateTotals(payer, payee, amount)
+        else:
+            self.addEntryToTotals(payer, payee, amount)
+
     def printTable(self, tableName):
         selectAll = "SELECT * FROM {}".format(tableName)
         cursor = self.conn.cursor()
