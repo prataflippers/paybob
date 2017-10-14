@@ -76,6 +76,7 @@ class Database:
 
         cursor = self.conn.cursor()
         cursor.execute(addUser, arguments)
+        self.conn.commit()
 
 
 
@@ -133,6 +134,7 @@ class Database:
 
          return list
 #==============================================================================#
+#===============================TRANSACTION COMMANDS===========================#
 
 
     def owesMoneyTo(self, payer, payee):
@@ -161,11 +163,38 @@ class Database:
 
     def addEntryToTotals(self, payer, payee, amount):
         addCommand = "INSERT INTO total(payer, payee, amount) VALUES (?, ?, ?);"
-
         arguments = (payer, payee, amount)
-
         cursor = self.conn.cursor()
         cursor.execute(addCommand, arguments)
+        self.conn.commit()
+
+    # Used when payer pays payee x amount. so it reduces how much the payee owes
+    def updateTotals(self, payer, payee, amount):
+        updateCommand = "UPDATE total SET amount = amount + ? WHERE id = ?;"
+        entryId = self.getTotalsEntryId(payer, payee)
+        cursor = self.conn.cursor()
+
+
+        if (entryId != None):
+            arguments = (amount, entryId)
+            cursor.execute(updateCommand, arguments)
+        else:
+            entryId = self.getTotalsEntryId(payee, payer)
+            if (entryId != None):
+                arguments = (-1 * amount, entryId)
+                cursor.execute(updateCommand, arguments)
+            # else:
+                #NO Entry exists between the two people
+
+        self.conn.commit()
+
+
+    def getTotalsEntryId(self, payer, payee):
+        findEntryinTotals = "SELECT id FROM total WHERE payer=? AND payee=?"
+        arguments = (payer, payee)
+        cursor = self.conn.cursor()
+        cursor.execute(findEntryinTotals, arguments)
+        rows = cursor.fetchall()
 
     def addReceipt(self, payerUsername, payeeUsername, description, amount):
         # Make entry in the receipt table
@@ -215,6 +244,49 @@ class Database:
 
 
     # def transactionHistory(payerUsername, payeeUsername):
+        if rows != []:
+            return rows[0][0]
+        else:
+            return None
+
+
+    # When: 1. Payer pays back payee.
+    #       2. Payer lends payee money
+    def addReceipt(self, payer, payee, description, amount):
+
+        # Make entry in the receipt table
+        makeReceipt = "INSERT INTO receipt(payer, payee, description, amount) VALUES (?, ?, ?, ?);"
+        arguments = (payer, payee, description, amount)
+        cursor = self.conn.cursor()
+        cursor.execute(makeReceipt, arguments)
+
+        # Check if a totals entry exists between the two users
+        entryId = -1
+        entryFound = self.getTotalsEntryId(payer, payee)
+        if entryFound != None:
+            entryId = entryFound
+        else:
+            entryFound = self.getTotalsEntryId(payee, payer)
+            if entryFound != None:
+                entryId = entryFound
+
+        entryExists = (entryId != -1)
+        print(entryExists)
+        if entryExists:
+            self.updateTotals(payer, payee, amount)
+        else:
+            self.addEntryToTotals(payer, payee, amount)
+
+        self.conn.commit()
+
+    def printTable(self, tableName):
+        selectAll = "SELECT * FROM {}".format(tableName)
+        cursor = self.conn.cursor()
+        cursor.execute(selectAll)]
+        rows = cursor.fetchall()
+        for row in rows:
+            print row
+
 
 
 #==============================================================================#
@@ -236,6 +308,9 @@ def main():
     print(db.payingHistory("Shitian"))
     print(db.receivingHistory("Haozhe"))
 
+    db.printTable("receipt")
+    print("  ")
+    db.printTable("total")
 
 if __name__ == '__main__':
     main()
