@@ -19,9 +19,9 @@ def pay_handler(user_id, arguments):
         elif (db.getChatID(payee) == None):
             paybot.sendMessage(user_id, USER_NOT_FOUND)
         elif(float(amount)):
-            payee_id = db.getChatID(payee)
-            paybot.sendMessage(payee_id, "To acknowledge %s's payment of %s, type `/acknowledge <user>`", (payee, amount))
-            paybot.sendMessage(user_id, "Waiting for acknowledgement of payment of %s to %s" % (amount, payee))
+            payer_id = db.getChatID(payer)
+            paybot.sendMessage(payee_id, "To acknowledge %s's payment of %s, type `/acknowledge <user>`", (payer, amount))
+            paybot.sendMessage(user_id, "Waiting for acknowledgement of payment of %s to %s" % (amount, payer))
         else:
             paybot.sendMessage(user_id, USAGE_MESSAGE)
     except:
