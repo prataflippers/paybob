@@ -1,4 +1,5 @@
 from acknowledge_handler import acknowledge_handler
+from add_handler import add_handler
 from debt_handler import debt_handler
 from history_handler import history_handler
 from loan_handler import loan_handler
@@ -13,18 +14,20 @@ def parse_handler(user_id, message):
     RETURN TYPE: void
     '''
     command = message.split(' ')[0][1:]
-    argument = message.split(' ', 1)[1] if len(message.split(' ', 1)) > 1 else None
+    arguments = message.split(' ', 1)[1] if len(message.split(' ', 1)) > 1 else None
     if command == "acknowledge":
-        acknowledge_handler(user_id, argument)
+        acknowledge_handler(user_id, arguments)
+    elif command == "add":
+        add_handler(user_id, arguments)
     elif command == "debts":
-        debt_handler(user_id, argument)
+        debt_handler(user_id, arguments)
     elif command == "history":
-        history_handler(user_id, argument)
+        history_handler(user_id, arguments)
     elif command == "loans":
-        loan_handler(user_id, argument)
+        loan_handler(user_id, arguments)
     elif command == "pay":
-        pay_handler(user_id, argument)
+        pay_handler(user_id, arguments)
     elif command == "retract":
-        retract_handler(user_id, argument)
+        retract_handler(user_id, arguments)
     else:
         print("Invalid command")

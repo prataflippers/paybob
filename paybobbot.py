@@ -1,7 +1,8 @@
 import time
 import telepot
+
 from telepot.loop import MessageLoop
-import controllers.parse_message as parser
+from controllers.parse_message import parse_handler
 
 # Initial setup
 paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
@@ -13,7 +14,8 @@ def handler(msg):
 
     if content_type == 'text':
         paybot.sendMessage(chat_id, msg['text'])
-        parser.parse_handler(chat_id, msg['text'])
+        parse_handler(chat_id, msg['text'])
+
 
 # Run loop
 MessageLoop(paybot, handler).run_as_thread()

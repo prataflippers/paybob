@@ -20,11 +20,12 @@ class Database:
             print(e)
 
     def setup(self):
-        self.makeUsers()
+
+        self.makeUsersTable()
         self.makeReceiptsTable()
         self.makeTotalsTable()
 
-    def makeUsers(self):
+    def makeUsersTable(self):
         makeUserandIDtable = """CREATE TABLE IF NOT EXISTS user (
                                 id Integer PRIMARY KEY AUTOINCREMENT,
                                 username Text NOT NULL UNIQUE,
@@ -40,6 +41,7 @@ class Database:
                             payee Integer NOT NULL,
                             description Text,
                             amount Float NOT NULL
+
                         );"""
         self.create_table(self.conn, makeReceipts)
 
@@ -55,8 +57,8 @@ class Database:
 #=============================== USER COMMANDS ================================#
 
     def addUser(self, username, chatId):
-        addUser = """INSERT INTO user(username, chatID)
-                     VALUES (?, ?);"""
+        addUser = "INSERT INTO user(username, chatID) VALUES (?, ?);"
+
 
         arguments = (username, chatId,)
 
@@ -117,7 +119,44 @@ class Database:
              return None
 #==============================================================================#
 
-    #def makeReceipt(payerUsername, payeeUsername, amount, description):
+
+    def owesMoneyTo(self, payer, payee):
+
+        findEntry = "SELECT amount FROM total WHERE payer=? AND payee=?"
+
+        cursor = self.conn.cursor()
+        arguments = (payer, payee)
+        cursor.execute(findEntry, arguments)
+        rows = cursor.fetchall()
+
+        if rows != []:
+            return rows[0][0]
+        else:
+
+            cursor = self.conn.cursor()
+            arguments = (payee, payer)
+            cursor.execute(findEntry, arguments)
+
+            rows = cursor.fetchall()
+
+            if rows != []:
+                return -1 * rows[0][0]
+            else:
+                return 0
+
+    def addEntryToTotals(self, payer, payee, amount):
+        addCommand = "INSERT INTO total(payer, payee, amount) VALUES (?, ?, ?);"
+
+
+        arguments = (payer, payee, amount)
+
+        cursor = self.conn.cursor()
+        cursor.execute(addCommand, arguments)
+
+
+
+#==============================================================================#
+
 
 def main():
 
@@ -129,6 +168,11 @@ def main():
     print(db.getUsername(231))
     print(db.getChatID("Suysdash"))
     print(db.getUsername(12223))
+    db.addEntryToTotals("Suyash", "Haozhe", 396.23)
+    print(db.owesMoneyTo("Suyash", "Haozhe"))
+    print(db.owesMoneyTo("Haozhe", "Suyash"))
+    print(db.owesMoneyTo("Shitian", "Suyash"))
+    print(db.owesMoneyTo("Haozhe", "Junkai"))
 
 
 if __name__ == '__main__':
