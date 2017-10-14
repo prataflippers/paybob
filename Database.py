@@ -136,6 +136,9 @@ class Database:
 #==============================================================================#
 #===============================TRANSACTION COMMANDS===========================#
 
+<<<<<<< HEAD
+    def moneyOwed(self, payer, payee):
+=======
     # Returns list of tuples (user, amount) whom payee owes money to
     def owesToList(self, payer):
 
@@ -152,6 +155,7 @@ class Database:
         return listOfLoaners
 
     def owesMoneyTo(self, payer, payee):
+>>>>>>> 9fadd6378b2e1a1bcbc0fa72eecb51e7dc68377b
 
         findEntry = "SELECT amount FROM total WHERE payer=? AND payee=?"
 
@@ -305,6 +309,52 @@ class Database:
             print row
 
 
+<<<<<<< HEAD
+    #returns a list of all the people the 'username' owes money to and how much
+    #[(Username, Amount)]
+    def owesMoneyTo(self, username):
+        cursor = self.conn.cursor()
+        arguments = (username,)
+        list = []
+
+        filterEntries = "SELECT payer, amount FROM total WHERE payee=? AND amount > 0"
+        cursor.execute(filterEntries, arguments)
+        rows = cursor.fetchall()
+        for row in rows:
+            list.append((str(row[0]), row[1]))
+
+        filterEntries = "SELECT payee, amount FROM total WHERE payer=? AND amount < 0"
+        cursor.execute(filterEntries, arguments)
+        rows = cursor.fetchall()
+        for row in rows:
+            list.append((row[0], -1 * row[1]))
+
+        print(username + " owes the following people money")
+        print(list)
+        print("  ")
+
+    #returns a list of all the people that owe 'username' money and how much they owe
+    def hasNotPaid(self, username):
+        cursor = self.conn.cursor()
+        arguments = (username,)
+        list = []
+
+        filterEntries = "SELECT payer, amount FROM total WHERE payee=? AND amount < 0"
+        cursor.execute(filterEntries, arguments)
+        rows = cursor.fetchall()
+        for row in rows:
+            list.append((str(row[0]), -1 * row[1]))
+
+        filterEntries = "SELECT payee, amount FROM total WHERE payer=? AND amount > 0"
+        cursor.execute(filterEntries, arguments)
+        rows = cursor.fetchall()
+        for row in rows:
+            list.append((str(row[0]), row[1]))
+
+        print("THE FOLLOWING PEOPLE OWE " + username + " MONEY")
+        print(list)
+        print("  ")
+=======
     #when the person who owed now owes more i.e. payer gives money to payee
     def incrementReceipt(self, payerUsername, payeeUsername, description, amount):
         self.addReceipt(payerUsername, payeeUsername, description, amount);
@@ -320,6 +370,7 @@ class Database:
         cursor = self.conn.cursor()
         cursor.execute(pay, arguments)
 
+>>>>>>> 9fadd6378b2e1a1bcbc0fa72eecb51e7dc68377b
 
 #==============================================================================#
 
@@ -330,6 +381,29 @@ def main():
     db = Database()
     db.setup()
     db.addUser("Suyash", 231)
+<<<<<<< HEAD
+    print(db.getChatID("Suyash"))
+    print(db.getUsername(231))
+    print(db.getChatID("Suysdash"))
+    print(db.getUsername(12223))
+    # db.addEntryToTotals("Suyash", "Haozhe", 396.23)
+    print(db.moneyOwed("Suyash", "Haozhe"))
+    print(db.moneyOwed("Haozhe", "Suyash"))
+    print(db.moneyOwed("Shitian", "Suyash"))
+    print(db.moneyOwed("Haozhe", "Junkai"))
+    db.addReceipt("Haozhe", "Junkai", "Firecracker Chicken", 4.50)
+    db.addReceipt("Haozhe", "Junkai", "Dabao", 4.50)
+    db.addReceipt("Junkai", "Haozhe", "Dabao", 60)
+    db.addReceipt("Haozhe", "Junkai", "Dabao", 200)
+
+
+    db.owesMoneyTo("Haozhe")
+    db.owesMoneyTo("Junkai")
+    db.owesMoneyTo("Suyash")
+    db.hasNotPaid("Haozhe")
+    db.hasNotPaid("Junkai")
+    db.hasNotPaid("Suyash")
+=======
     db.addUser("Haozhe", 123)
     db.addUser("Shitian", 132)
     db.addUser("Junkai", 321)
@@ -337,6 +411,7 @@ def main():
     db.addReceipt("Haozhe", "Suyash", "Paid for Suyash's windows pc", 20)
     db.addReceipt("Shitian", "Haozhe", "Paid for HZ's lunch", 2)
     db.decrementReceipt("Shitian", "Haozhe", "paid ST back $2", 2)
+>>>>>>> 9fadd6378b2e1a1bcbc0fa72eecb51e7dc68377b
 
     db.printTable("total")
     print(" ")
