@@ -1,5 +1,3 @@
-# --- DATABASE QUERY METHODS --- #
-
 import sqlite3
 from sqlite3 import Error
 
@@ -22,18 +20,29 @@ class Database:
             print(e)
 
     def setup(self):
+        self.makeUsers()
+        self.makeReceipts()
+        self.makeTotals()
 
+    def makeUsers(self):
         makeUserandIDtable = """CREATE TABLE IF NOT EXISTS user (
                                 id Integer PRIMARY KEY AUTOINCREMENT,
                                 username Text NOT NULL,
                                 chatID Integer NOT NULL
                             );"""
-
-        inline = "CREATE TABLE IF NOT EXISTS user (id Integer PRIMARY KEY AUTOINCREMENT, username Text NOT NULL, chatID Integer NOT NULL);"
-
         self.create_table(self.conn, makeUserandIDtable)
-        # cursor = self.conn.cursor()
-        # cursor.execute(makeUserandIDtable)
+
+
+    def makeReceipts(self):
+        makeReceipts = ""
+        self.create_table(self.conn, makeReceipts)
+
+
+    def makeTotals(self):
+        makeTotals = ""
+        self.create_table(self.conn, makeTotals)
+
+#=============================== USER COMMANDS ================================#
 
     def addUser(self, username, chatId):
         addUser = """INSERT INTO user(username, chatID)
@@ -75,7 +84,13 @@ class Database:
         else:
             return None
 
+#==============================================================================#
+
+    def makeReceipt(payerUsername, payeeUsername, amount, description)
+
 def main():
+
+    # TESTS
     db = Database()
     db.setup()
     db.addUser("Suyash", 231)
