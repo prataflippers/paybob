@@ -288,11 +288,19 @@ class Database:
 
     #when the person who owed now owes more i.e. payer gives money to payee
     def incrementReceipt(self, payerUsername, payeeUsername, description, amount):
-        addReceipt(payerUsername, payeeUsername, description, amount);
+        self.addReceipt(payerUsername, payeeUsername, description, amount);
 
     #when the person who owes now owes less i.e. payee returns some money
     def decrementReceipt(self, payerUsername, payeeUsername, description, amount):
-        addReceipt(payeeUsername, payerUsername, description, amount)
+        self.addReceipt(payeeUsername, payerUsername, description, amount)
+
+    #clears the receipts between the payer and payee
+    def paidEverything(self, payerUsername, payeeUsername):
+        pay = "DELETE FROM receipt WHERE (payer=? AND payee=?) OR (payer=? AND payee=?);"
+        arguments = (payerUsername, payeeUsername, payeeUsername, payerUsername);
+        cursor = self.conn.cursor()
+        cursor.execute(pay, arguments)
+
 
 #==============================================================================#
 
@@ -309,13 +317,14 @@ def main():
     db.addReceipt("Suyash", "Haozhe", "blowjob", 20)
     db.addReceipt("Haozhe", "Suyash", "Paid for Suyash's blowjob", 20)
     db.addReceipt("Shitian", "Haozhe", "Paid for HZ's lunch", 2)
-    print(db.selfHistory("Haozhe"))
-    print(db.payingHistory("Shitian"))
-    print(db.receivingHistory("Haozhe"))
-
-    db.printTable("receipt")
-    print("  ")
+    db.decrementReceipt("Shitian", "Haozhe", "paid ST back $2", 2)
     db.printTable("total")
+    print(" ")
+    db.printTable("receipt")
+    print(" ")
+    db.paidEverything("Haozhe", "Shitian")
+    db.printTable("receipt")
+
 
 if __name__ == '__main__':
     main()
