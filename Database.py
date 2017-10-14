@@ -27,14 +27,20 @@ class Database:
     def makeUsers(self):
         makeUserandIDtable = """CREATE TABLE IF NOT EXISTS user (
                                 id Integer PRIMARY KEY AUTOINCREMENT,
-                                username Text NOT NULL,
-                                chatID Integer NOT NULL
+                                username Text NOT NULL UNIQUE,
+                                chatID Integer NOT NULL UNIQUE
                             );"""
         self.create_table(self.conn, makeUserandIDtable)
 
 
     def makeReceipts(self):
-        makeReceipts = ""
+        makeReceipts = """CREATE TABLE IF NOT EXISTS receipt (
+                            id Integer PRIMARY KEY AUTOINCREMENT,
+                            payer Integer NOT NULL,
+                            payee Integer NOT NULL,
+                            description Text,
+                            amount Integer NOT NULL
+                            ); """
         self.create_table(self.conn, makeReceipts)
 
 
