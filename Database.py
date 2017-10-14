@@ -136,9 +136,7 @@ class Database:
 #==============================================================================#
 #===============================TRANSACTION COMMANDS===========================#
 
-<<<<<<< HEAD
-    def moneyOwed(self, payer, payee):
-=======
+
     # Returns list of tuples (user, amount) whom payee owes money to
     def owesToList(self, payer):
 
@@ -154,9 +152,7 @@ class Database:
             listOfLoaners.append((row[1], row[3]))
         return listOfLoaners
 
-    def owesMoneyTo(self, payer, payee):
->>>>>>> 9fadd6378b2e1a1bcbc0fa72eecb51e7dc68377b
-
+    def moneyOwed(self, payer, payee):
         findEntry = "SELECT amount FROM total WHERE payer=? AND payee=?"
 
         cursor = self.conn.cursor()
@@ -309,7 +305,6 @@ class Database:
             print row
 
 
-<<<<<<< HEAD
     #returns a list of all the people the 'username' owes money to and how much
     #[(Username, Amount)]
     def owesMoneyTo(self, username):
@@ -354,7 +349,7 @@ class Database:
         print("THE FOLLOWING PEOPLE OWE " + username + " MONEY")
         print(list)
         print("  ")
-=======
+
     #when the person who owed now owes more i.e. payer gives money to payee
     def incrementReceipt(self, payerUsername, payeeUsername, description, amount):
         self.addReceipt(payerUsername, payeeUsername, description, amount);
@@ -370,7 +365,33 @@ class Database:
         cursor = self.conn.cursor()
         cursor.execute(pay, arguments)
 
->>>>>>> 9fadd6378b2e1a1bcbc0fa72eecb51e7dc68377b
+    #returns a list of transactions between payer and payee.
+    #the amount is positive if payer paid and negative if payee paid
+    def transactionHistory(self, payer, payee):
+        cursor = self.conn.cursor()
+        filterEntries = "SELECT id, description, amount FROM receipt WHERE payer=? AND payee=?"
+        arguments = (payer, payee)
+        list = []
+
+        cursor.execute(filterEntries, arguments)
+        rows = cursor.fetchall()
+        for row in rows:
+            list.append((row[0], str(row[1]), row[2]))
+
+        filterEntries = "SELECT id, description, amount FROM receipt WHERE payer=? AND payee=?"
+        arguments = (payee, payer)
+        cursor.execute(filterEntries, arguments)
+        rows = cursor.fetchall()
+        for row in rows:
+            list.append((row[0], str(row[1]), -1 * row[2]))
+
+        sorted_list = sorted(list, key=lambda x: x[0])
+        list_without_ids = (map((lambda x: (x[1], x[2])) , sorted_list))
+
+        print("These are the transactions between " + payer + " and " + payee)
+        print(list_without_ids)
+        print("  ")
+        return list_without_ids
 
 #==============================================================================#
 
@@ -381,7 +402,6 @@ def main():
     db = Database()
     db.setup()
     db.addUser("Suyash", 231)
-<<<<<<< HEAD
     print(db.getChatID("Suyash"))
     print(db.getUsername(231))
     print(db.getChatID("Suysdash"))
@@ -403,22 +423,14 @@ def main():
     db.hasNotPaid("Haozhe")
     db.hasNotPaid("Junkai")
     db.hasNotPaid("Suyash")
-=======
-    db.addUser("Haozhe", 123)
-    db.addUser("Shitian", 132)
-    db.addUser("Junkai", 321)
-    db.addReceipt("Suyash", "Haozhe", "bought a macbook", 20)
-    db.addReceipt("Haozhe", "Suyash", "Paid for Suyash's windows pc", 20)
-    db.addReceipt("Shitian", "Haozhe", "Paid for HZ's lunch", 2)
-    db.decrementReceipt("Shitian", "Haozhe", "paid ST back $2", 2)
->>>>>>> 9fadd6378b2e1a1bcbc0fa72eecb51e7dc68377b
 
-    db.printTable("total")
-    print(" ")
     db.printTable("receipt")
     print(" ")
     db.paidEverything("Haozhe", "Shitian")
-    db.printTable("receipt")
+    print("  ")
+
+    db.transactionHistory("Haozhe", "Junkai")
+
     print(" ")
     db.printTable("total")
 
