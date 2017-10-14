@@ -86,7 +86,8 @@ class Database:
 
 #==============================================================================#
 
-    def makeReceipt(payerUsername, payeeUsername, amount, description)
+    def makeReceipt(payerUsername, payeeUsername, amount, description):
+        print("")
 
 def main():
 
