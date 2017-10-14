@@ -25,8 +25,9 @@ def acknowledge_handler(user_id, arguments):
             db.updateTotals(payer, payee, float(amount))
             payer_id = db.getChatID(payer)
             paybot.sendMessage(user_id, "Successfully acknowledged payment of %s from %s" % (amount, payee))
-            paybot.sendMessage(payee_id, "Payment of %s to %s acknowledged", payee, amount)
+            paybot.sendMessage(payer_id, "Payment of {} to {} acknowledged".format(amount, payee))
         else:
             paybot.sendMessage(user_id, USAGE_MESSAGE)
-    except:
+    except Exception as e:
         paybot.sendMessage(user_id, USAGE_MESSAGE)
+        print(e)
