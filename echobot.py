@@ -2,6 +2,7 @@ import json
 import requests
 import time
 import urllib
+import controllers.parse_message as parser
 
 TOKEN = "452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ"
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
