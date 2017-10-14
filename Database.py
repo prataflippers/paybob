@@ -270,7 +270,6 @@ class Database:
                 entryId = entryFound
 
         entryExists = (entryId != -1)
-        print(entryExists)
         if entryExists:
             self.updateTotals(payer, payee, amount)
         else:
@@ -281,10 +280,15 @@ class Database:
     def printTable(self, tableName):
         selectAll = "SELECT * FROM {}".format(tableName)
         cursor = self.conn.cursor()
-        cursor.execute(selectAll)]
+        cursor.execute(selectAll)
         rows = cursor.fetchall()
         for row in rows:
             print row
+
+
+    #when the person who owed now owes more i.e. payer gives money to payee
+    def incrementReceipt(self, payerUsername, payeeUsername, description, amount):
+        addReceipt(payerUsername, payeeUsername, description, amount);
 
 
 
