@@ -2,6 +2,7 @@ import time
 import telepot
 
 from telepot.loop import MessageLoop
+from Database import Database
 from controllers.parse_message import parse_handler
 
 # Initial setup
@@ -10,12 +11,16 @@ paybot.getUpdates(offset=100)
 
 def handler(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
-    print(content_type, chat_type, chat_id)
+
+    # Add user to database if s/he does not exist
+    db = Database()
+    db.setup
+    if (db.getUsername(chat_id) == None):
+        db.addUser(msg["chat"]["username"], chat_id)
+        print(db.getUsername(chat_id))
 
     if content_type == 'text':
-        paybot.sendMessage(chat_id, msg['text'])
         parse_handler(chat_id, msg['text'])
-
 
 # Run loop
 MessageLoop(paybot, handler).run_as_thread()
