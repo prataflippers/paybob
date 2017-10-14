@@ -110,10 +110,10 @@ class Database:
             return None
 
     #selfHistory returns a list of [description, othersName, amount]
-    #[description, othersName, amount(positive for receiving, negative for  giving)]
-    def selfHistory(self, id):
+    #[othersName, description, amount(positive for receiving, negative for  giving)]
+    def selfHistory(self, username):
          selectCommand = "SELECT * FROM receipt WHERE payer=? OR payee =?"
-         arguments = (id, id)
+         arguments = (username, username)
 
          cursor = self.conn.cursor()
          cursor.execute(selectCommand, arguments)
@@ -122,11 +122,11 @@ class Database:
          list = []
          if rows != []:
              for row in rows:
-                 if row[1] == id:
-                     list.append((str(row[3]), str(row[2]), row[4]))
+                 if row[1] == username:
+                     list.append((str(row[2]), str(row[3]), row[4]))
                  else:
                      amount = -row[4]
-                     list.append((str(row[3]), str(row[1]), amount))
+                     list.append((str(row[1]), str(row[3]), amount))
 
          else:
              return None
@@ -162,7 +162,6 @@ class Database:
     def addEntryToTotals(self, payer, payee, amount):
         addCommand = "INSERT INTO total(payer, payee, amount) VALUES (?, ?, ?);"
 
-
         arguments = (payer, payee, amount)
 
         cursor = self.conn.cursor()
@@ -174,6 +173,48 @@ class Database:
         arguments = (payerUsername, payeeUsername, description, amount)
         cursor = self.conn.cursor()
         cursor.execute(makeReceipt, arguments)
+
+
+    #return type: [(paidTo, Description, Amount)]
+    #username is the person giving the money
+    def payingHistory(self, username):
+        payingCommand = "SELECT * FROM receipt WHERE payer=?;"
+
+        arguments = (username,)
+
+        cursor = self.conn.cursor()
+        cursor.execute(payingCommand, arguments)
+        rows = cursor.fetchall()
+
+        list = []
+        if rows != []:
+            for row in rows:
+                    list.append((str(row[2]), str(row[3]), row[4]))
+        else:
+            return None
+        return list
+
+    #return type: [(receiveFrom, Description, Amount)]
+    #username is the person reciving the money
+    def receivingHistory(self, username):
+        receivingCommand = "SELECT * FROM receipt WHERE payee=?;"
+
+        arguments = (username,)
+
+        cursor = self.conn.cursor()
+        cursor.execute(receivingCommand, arguments)
+        rows = cursor.fetchall()
+
+        list = []
+        if rows != []:
+            for row in rows:
+                    list.append((str(row[1]), str(row[3]), row[4]))
+        else:
+            return None
+        return list
+
+
+    # def transactionHistory(payerUsername, payeeUsername):
 
 
 #==============================================================================#
@@ -189,9 +230,11 @@ def main():
     db.addUser("Shitian", 132)
     db.addUser("Junkai", 321)
     db.addReceipt("Suyash", "Haozhe", "blowjob", 20)
-    db.addReceipt("Haozhe", "Suyash", "blowjob", 20)
-    db.addReceipt("Shitian", "Haozhe", "Rice", 2)
+    db.addReceipt("Haozhe", "Suyash", "Paid for Suyash's blowjob", 20)
+    db.addReceipt("Shitian", "Haozhe", "Paid for HZ's lunch", 2)
     print(db.selfHistory("Haozhe"))
+    print(db.payingHistory("Shitian"))
+    print(db.receivingHistory("Haozhe"))
 
 
 if __name__ == '__main__':
