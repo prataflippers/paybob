@@ -1,4 +1,6 @@
 from utilities import isReceiving, getAbsoluteAmount
+import telepot
+import Database
 
 USAGE_MESSAGE = "`/history` to display previous transactions"
 
@@ -7,11 +9,18 @@ USAGE_MESSAGE = "`/history` to display previous transactions"
         String user_id:         
         Integer numEntries:     number of entries in the list
 '''
-def history_handler(user_id, numEntries):
+def history_handler(user_id, args):
+    # Initialize bot and database helpers
+    paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
+    db = Database.Database()
+
+    # Initialise history handler variables
+    numEntries = args[0]
     message = "Transaction History (past " + numEntries + " entries"
     counter = 1
-    '''
-    history = allHistory(user_id) 
+    db = Database()
+
+    history = db.selfHistory(user_id) 
     slicedHistory = history[len(history) - numEntries, len(history)]
     for transaction in slicedHistory:
         (description, transactee, amount) = transaction
@@ -21,8 +30,7 @@ def history_handler(user_id, numEntries):
         else:
             message += payment_message(counter, transactee, absAmount, description)
         counter += 1
-    send_message(user_id, message)
-    '''
+    paybot.send_message(user_id, message)
 
 '''
     Creates a paying message for history handler

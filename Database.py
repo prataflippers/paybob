@@ -286,7 +286,7 @@ class Database:
         cursor.execute(selectAll)
         rows = cursor.fetchall()
         for row in rows:
-            print row
+            print(row)
 
 
     #returns a list of all the people the 'username' owes money to and how much
