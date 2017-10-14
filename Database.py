@@ -136,6 +136,20 @@ class Database:
 #==============================================================================#
 #===============================TRANSACTION COMMANDS===========================#
 
+    # Returns list of tuples (user, amount) whom payee owes money to
+    def owesToList(self, payer):
+
+        findEntry = "SELECT * FROM total WHERE amount > 1.0 AND payee=?"
+        cursor = self.conn.cursor()
+        arguments = (payer,)
+        cursor.execute(findEntry, arguments)
+        rows = cursor.fetchall()
+
+        listOfLoaners = []
+        for row in rows:
+            print row[1]
+            listOfLoaners.append((row[1], row[3]))
+        return listOfLoaners
 
     def owesMoneyTo(self, payer, payee):
 
@@ -281,7 +295,7 @@ class Database:
     def printTable(self, tableName):
         selectAll = "SELECT * FROM {}".format(tableName)
         cursor = self.conn.cursor()
-        cursor.execute(selectAll)]
+        cursor.execute(selectAll)
         rows = cursor.fetchall()
         for row in rows:
             print row
