@@ -290,7 +290,9 @@ class Database:
     def incrementReceipt(self, payerUsername, payeeUsername, description, amount):
         addReceipt(payerUsername, payeeUsername, description, amount);
 
-
+    #when the person who owes now owes less i.e. payee returns some money
+    def decrementReceipt(self, payerUsername, payeeUsername, description, amount):
+        addReceipt(payeeUsername, payerUsername, description, amount)
 
 #==============================================================================#
 
