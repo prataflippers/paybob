@@ -1,6 +1,6 @@
 import telepot
 import Database
-from utilities import isReceiving
+from controllers.utilities import isReceiving
 import math
 
 USAGE_MESSAGE = "`/loan <user>` to display loans to one user, `/loan` to display all"

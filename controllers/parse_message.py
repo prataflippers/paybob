@@ -1,11 +1,11 @@
-import acknowledge_handler
-import add_handler
-import debt_handler
-import history_handler
-import loan_handler
-import give_handler
-import retract_handler
-
+from controllers.acknowledge_handler import acknowledge_handler
+from controllers.add_handler import add_handler
+from controllers.debt_handler import debt_handler
+from controllers.history_handler import history_handler
+from controllers.loan_handler import loan_handler
+from controllers.give_handler import give_handler
+from controllers.retract_handler import retract_handler
+import telepot
 import Database
 db = Database.Database()
 
