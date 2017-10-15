@@ -1,10 +1,10 @@
-from acknowledge_handler import acknowledge_handler
-from add_handler import add_handler
-from debt_handler import debt_handler
-from history_handler import history_handler
-from loan_handler import loan_handler
-from give_handler import give_handler
-from retract_handler import retract_handler
+import acknowledge_handler
+import add_handler
+import debt_handler
+import history_handler
+import loan_handler
+import give_handler
+import retract_handler
 
 import Database
 db = Database.Database()
