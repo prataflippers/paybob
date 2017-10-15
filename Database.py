@@ -1,13 +1,13 @@
 import sqlite3
 from sqlite3 import Error
-from databaseSetup import initialise, create_table, setup
-from databaseCreateTables import usersTable, receiptsTable, pendingTable, totalsTable
-from userTable import addUser, getChatID, getUsername
-from pendingTable import insertPending, getPending, getAllPending, deleteAllPending
-from totalTable import owesToList, moneyOwed, addEntryToTotals, updateTotals, getTotalsEntryId
-from historyQueries import selfHistory, payingHistory, receivingHistory, transactionHistory, history
-from receiptTable import checkReciptsTable, addReceipt, incrementReceipt, decrementReceipt, paidEverything
-from totalsQuery import owesMoneyTo, hasNotPaid
+from db.databaseSetup import initialise, create_table, setup
+from db.databaseCreateTables import usersTable, receiptsTable, pendingTable, totalsTable
+from db.userTable import addUser, getChatID, getUsername
+from db.pendingTable import insertPending, getPending, getAllPending, deleteAllPending
+from db.totalTable import owesToList, moneyOwed, addEntryToTotals, updateTotals, getTotalsEntryId
+from db.historyQueries import selfHistory, payingHistory, receivingHistory, transactionHistory, history
+from db.receiptTable import checkReciptsTable, addReceipt, incrementReceipt, decrementReceipt, paidEverything
+from db.totalsQuery import owesMoneyTo, hasNotPaid
 
 class Database:
 
