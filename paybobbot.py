@@ -16,8 +16,6 @@ def handler(msg):
     db = Database()
     db.setup()
     if (db.getUsername(chat_id) == None):
-        print("Chat id added: %d" % chat_id)
-        print("Username: %s" % msg["chat"]["username"])
         db.addUser(msg["chat"]["username"], chat_id)
 
     if content_type == 'text':

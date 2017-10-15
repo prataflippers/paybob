@@ -6,7 +6,6 @@ from loan_handler import loan_handler
 from give_handler import give_handler
 from retract_handler import retract_handler
 
-import telepot
 import Database
 db = Database.Database()
 
@@ -17,9 +16,6 @@ def parse_handler(user_id, message):
     message: string
     RETURN TYPE: void
     '''
-    paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
-    db = Database.Database()
-
     command = message.split(' ')[0][1:]
     arguments = message.split(' ')[1:] if len(message.split(' ')) > 1 else None
     if command == "acknowledge":

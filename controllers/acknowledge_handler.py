@@ -11,6 +11,9 @@ def acknowledge_handler(user_id, arguments):
     db = Database.Database()
 
     # Handle acknowledgement
+    payer = arguments[0]
+    payee = db.getUsername(user_id)
+    amount = arguments[1]
     try:
         payee = db.getUsername(user_id)
         if (arguments == None):

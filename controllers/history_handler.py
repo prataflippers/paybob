@@ -1,18 +1,11 @@
 import telepot
 import math
-import Database
-from utilities import isReceiving, isPaying, getAbsoluteAmount
-
-USAGE_MESSAGE = "/history \"x\" \"y\" to display x previous transactions between y (\"username\" or \"all\")"
-USAGE_EXAMPLE = "/history 25 or /history all or /history 25 alberto or /history all alberto"
-
-
 NO_ENTRIES_REQUESTED_MESSAGE = "0 entries request!"
 NO_ENTIRES_AVAILABLE_MESSAGE = "There are no transactions recorded"
 
 '''
     Returns a list of recent transactions in chronological order limited to numEntries
-        String user_id:  s
+        String user_id:         s
         Integer numEntries:     number of entries in the list
 '''
 def history_handler(user_id, args):

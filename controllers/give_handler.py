@@ -11,6 +11,8 @@ def give_handler(user_id, arguments):
     db = Database.Database()
 
     # Handle paying
+    payee = arguments[0]
+    amount = arguments[1]
     try:
         payer = db.getUsername(user_id)
         payee = arguments[0]
