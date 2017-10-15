@@ -177,7 +177,7 @@ class Database:
                  if row[1] == username:
                      list.append((str(row[2]), str(row[3]), row[4]))
                  else:
-                     amount = -row[4]
+                     amount = -1 * row[4]
                      list.append((str(row[1]), str(row[3]), amount))
 
          else:
@@ -392,6 +392,31 @@ class Database:
         cursor = self.conn.cursor()
         cursor.execute(pay, arguments)
 
+
+    def history(self, payer):
+            cursor = self.conn.cursor()
+            filterEntries = "SELECT id, description, payee, amount FROM receipt WHERE payer=?"
+            arguments = (payer,)
+            list = []
+
+            cursor.execute(filterEntries, arguments)
+            rows = cursor.fetchall()
+            for row in rows:
+                list.append((row[0], str(row[1]), str(row[2]), row[3]))
+
+            filterEntries = "SELECT id, description, payer, amount FROM receipt WHERE payee=?"
+            arguments = (payer, )
+            cursor.execute(filterEntries, arguments)
+            rows = cursor.fetchall()
+            for row in rows:
+                list.append((row[0], str(row[1]), str(row[2]), -1 * row[3]))
+
+            sorted_list = sorted(list, key=lambda x: x[0])
+            list_without_ids = (map((lambda x: (x[1], x[2], x[3])) , sorted_list))
+
+            return list_without_ids
+
+
     #returns a list of transactions between payer and payee.
     #the amount is positive if payer paid and negative if payee paid
     def transactionHistory(self, payer, payee):
@@ -443,23 +468,28 @@ def main():
     db.addReceipt("Junkai", "Haozhe", "Dabao", 60)
     db.addReceipt("Haozhe", "Junkai", "Dabao", 200)
 
+    print("Self-history:")
+    db.selfHistory("Junkai")
 
-    db.owesMoneyTo("Haozhe")
-    db.owesMoneyTo("Junkai")
-    db.owesMoneyTo("Suyash")
-    db.hasNotPaid("Haozhe")
-    db.hasNotPaid("Junkai")
-    db.hasNotPaid("Suyash")
 
-    db.printTable("receipt")
-    print(" ")
-    db.paidEverything("Haozhe", "Shitian")
-    print("  ")
+    db.history("Junkai")
 
-    db.transactionHistory("Haozhe", "Junkai")
+    # db.owesMoneyTo("Haozhe")
+    # db.owesMoneyTo("Junkai")
+    # db.owesMoneyTo("Suyash")
+    # db.hasNotPaid("Haozhe")
+    # db.hasNotPaid("Junkai")
+    # db.hasNotPaid("Suyash")
 
-    print(" ")
-    db.printTable("total")
+    # db.printTable("receipt")
+    # print(" ")
+    # db.paidEverything("Haozhe", "Shitian")
+    # print("  ")
+    #
+    # db.transactionHistory("Haozhe", "Junkai")
+    #
+    # print(" ")
+    # db.printTable("total")
 
 
 if __name__ == '__main__':
