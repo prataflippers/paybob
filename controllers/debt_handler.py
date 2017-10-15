@@ -1,12 +1,12 @@
 import telepot
-from controllers.Database import Database
+import Database
 USAGE_MESSAGE = "`/debt <user>` to display amount owed to user, `/debt` to show current debt to all"
 USER_NOT_FOUND = "Either specified user does not exist or is currently not using the bot. Please request for him/her to add @paybob"
 
 def debt_handler(user_id, arguments):
     # Initialize bot and database helpers
     paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
-    db = Database()
+    db = Database.Database()
 
     # Handle paying
     payer = db.getUsername(user_id)

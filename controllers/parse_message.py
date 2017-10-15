@@ -1,10 +1,13 @@
-from controllers.acknowledge_handler import acknowledge_handler
-from controllers.add_handler import add_handler
-from controllers.debt_handler import debt_handler
-from controllers.history_handler import history_handler
-from controllers.loan_handler import loan_handler
-from controllers.pay_handler import pay_handler
-from controllers.retract_handler import retract_handler
+from acknowledge_handler import acknowledge_handler
+from add_handler import add_handler
+from debt_handler import debt_handler
+from history_handler import history_handler
+from loan_handler import loan_handler
+from pay_handler import pay_handler
+from retract_handler import retract_handler
+
+import Database
+db = Database.Database()
 
 def parse_handler(user_id, message):
     '''

@@ -1,4 +1,4 @@
-from controllers.Database import Database
+import Database
 import telepot
 
 # Messages
@@ -8,7 +8,7 @@ USER_NOT_FOUND = "Either specified user does not exist or is currently not using
 def acknowledge_handler(user_id, arguments):
     # Initialize bot and database helpers
     paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
-    db = Database()
+    db = Database.Database()
 
     # Handle acknowledgement
     payer = arguments[0]

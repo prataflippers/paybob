@@ -2,7 +2,7 @@ import time
 import telepot
 
 from telepot.loop import MessageLoop
-from controllers.Database  import Database
+from Database import Database
 from controllers.parse_message import parse_handler
 
 # Initial setup
