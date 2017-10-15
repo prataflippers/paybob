@@ -385,6 +385,7 @@ class Database:
         print(username + " owes the following people money")
         print(list)
         print("  ")
+        return list
 
     #returns a list of all the people that owe 'username' money and how much they owe
     def hasNotPaid(self, username):
@@ -407,6 +408,7 @@ class Database:
         print("THE FOLLOWING PEOPLE OWE " + username + " MONEY")
         print(list)
         print("  ")
+        return list
 
     #when the person who owed now owes more i.e. payer gives money to payee
     def incrementReceipt(self, payerUsername, payeeUsername, description, amount):
@@ -506,8 +508,9 @@ def main():
 
     db.history("Junkai")
 
-    # db.owesMoneyTo("Haozhe")
-    # db.owesMoneyTo("Junkai")
+    db.hasNotPaid("Haozhe")
+    db.hasNotPaid("Junkai")
+    db.hasNotPaid("shitian95")
     # db.owesMoneyTo("Suyash")
     # db.hasNotPaid("Haozhe")
     # db.hasNotPaid("Junkai")
@@ -517,9 +520,9 @@ def main():
     # print(" ")
     # db.paidEverything("Haozhe", "Shitian")
     # print("  ")
-    
+
     # db.transactionHistory("Haozhe", "Junkai")
-    
+
     # print(" ")
     # db.printTable("total")
 
