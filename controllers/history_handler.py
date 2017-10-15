@@ -1,4 +1,5 @@
 import telepot
+import math
 import Database
 from utilities import isReceiving, isPaying, getAbsoluteAmount
 
@@ -17,7 +18,6 @@ NO_ENTIRES_AVAILABLE_MESSAGE = "There are no transactions recorded"
 def history_handler(user_id, args):
     # Initialisation of bot
     paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
-
     # Check for non-null arguments
     if args is None:
         paybot.sendMessage(user_id, USAGE_MESSAGE)
@@ -28,56 +28,59 @@ def history_handler(user_id, args):
     else:
         numEntries = args[0]
         message = "Transaction History"
-
     # Initialisation of database and handler variables
     db = Database.Database()
     counter = 1
     user = db.getUsername(user_id)
-    transactee = args[1]
-
     # Individual or General transaction history
-    if transactee is None: # general history between transactee
+    if len(args) <= 1: # general history between transactee
+        transactee = None
         history = db.history(user)
         message += ":"
-    else: # individual history between transactee
+    elif args[1] != "all": # individual history between transactee
+        transactee = args[1]
         history = db.transactionHistory(user, transactee)
         message += " between " + transactee + ":"
+    else:
+        transactee = None
+        history = db.history(user)
+        message += ":"
 
     # If 0 entries requested
     if numEntries == 0:
         paybot.sendMessage(user_id, NO_ENTRIES_REQUESTED_MESSAGE)
         return
-
     # If no history
     if history is None:
         paybot.sendMessage(user_id, NO_ENTIRES_AVAILABLE_MESSAGE)
         return
-
     # If history exists
     numHistoryEntries = int(len(history))
     if numEntries != "all":
         numEntries = int(numEntries)
         start = max(0, numHistoryEntries - numEntries)
         history = history[start : numHistoryEntries]
+
     for transaction in history:
-        (description, transactee, amount) = transaction
-        absAmount = math.fabs(amount)
-        # general receive
-        if isReceiving(amount) and transactee == none:
-            message += general_return_message(counter, transactee, absAmount, description)
-        # individual receive
-        elif isReceiving(amount) and transactee != none:
-            message += individual_return_message(counter, transactee, absAmount, description)
-        # general paying
-        elif isPaying(amount) and transactee == none:
-            message += general_payment_message(counter, transactee, absAmount, description)
-        # individual paying
+        if transactee == None:
+            print(transaction)
+            (description, transactor, amount) = transaction
+            absAmount = math.fabs(amount)
+            if isReceiving(amount):
+                message += general_return_message(counter, transactor, absAmount, description)
+            else:
+                message += general_payment_message(counter, transactor, absAmount, description)
         else:
-            message += general_payment_message(counter, transactee, absAmount, description)
+            (description, amount) = transaction
+            absAmount = math.fabs(amount)
+            if isReceiving(amount):
+                message += individual_return_message(counter, transactee, absAmount, description)
+            else:
+                message += individual_payment_message(counter, transactee, absAmount, description)
         counter += 1
     paybot.sendMessage(user_id, message)
     return
-
+>>>>>>> f29ea2c9fa148db6fb84c513d2efcc749b1be4da
 '''
     Creates an individual paying message for history handler
         Integer index:      index of the entry
@@ -87,8 +90,6 @@ def history_handler(user_id, args):
 '''
 def individual_payment_message(index, transactee, amount, reason):
     return "\n" + str(index) + ". Paid " + transactee + " $" + str(amount) + ". Reason: " + reason
-
-
 '''
     Creates an individual return message for history handler
         Integer index:      index of the entry
@@ -97,8 +98,7 @@ def individual_payment_message(index, transactee, amount, reason):
         String reason:      reason for return
 '''
 def individual_return_message(index, transactee, amount, reason):
-    return "\n" + str(index) + ". Receivied $" + str(amount) + " from " + transactee + ". Reason: " + reason
-
+    return "\n" + str(index) + ". Received $" + str(amount) + " from " + transactee + ". Reason: " + reason
 '''
     Creates an general paying message for history handler
         Integer index:      index of the entry
@@ -108,8 +108,6 @@ def individual_return_message(index, transactee, amount, reason):
 '''
 def general_payment_message(index, transactee, amount, reason):
     return "\n" + str(index) + ". Paid $" + str(amount) + ". Reason: " + reason
-
-
 '''
     Creates an general return message for history handler
         Integer index:      index of the entry
@@ -118,4 +116,4 @@ def general_payment_message(index, transactee, amount, reason):
         String reason:      reason for return
 '''
 def general_return_message(index, transactee, amount, reason):
-    return "\n" + str(index) + ". Receivied $" + str(amount) +". Reason: " + reason
+    return "\n" + str(index) + ". Received $" + str(amount) +". Reason: " + reason
