@@ -3,7 +3,7 @@ from add_handler import add_handler
 from debt_handler import debt_handler
 from history_handler import history_handler
 from loan_handler import loan_handler
-from pay_handler import pay_handler
+from give_handler import give_handler
 from retract_handler import retract_handler
 
 import Database
@@ -28,9 +28,9 @@ def parse_handler(user_id, message):
         history_handler(user_id, arguments)
     elif command == "loans":
         loan_handler(user_id, arguments)
-    elif command == "pay":
-        pay_handler(user_id, arguments)
+    elif command == "give":
+        give_handler(user_id, arguments)
     elif command == "retract":
         retract_handler(user_id, arguments)
     else:
-        print("Invalid command")
+        paybot.sendMessage(user_id, "Invalid Command")
