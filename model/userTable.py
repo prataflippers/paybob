@@ -1,0 +1,32 @@
+def addUser(self, username, chatId):
+    addUser = "INSERT INTO user(username, chatID) VALUES (?, ?);"
+    arguments = (username, chatId,)
+    cursor = self.conn.cursor()
+    cursor.execute(addUser, arguments)
+    self.conn.commit()
+
+
+def getChatID(self, name):
+    selectCommand = "SELECT chatID FROM user WHERE username=?"
+    arguments = (name,)
+    cursor = self.conn.cursor()
+    cursor.execute(selectCommand, arguments)
+    rows = cursor.fetchall()
+
+    if rows != []:
+        return rows[0][0]
+    else:
+        return None
+
+def getUsername(self, chatId):
+    selectCommand = "SELECT username FROM user WHERE chatID=?"
+    arguments = (chatId,)
+    cursor = self.conn.cursor()
+    cursor.execute(selectCommand, arguments)
+
+    rows = cursor.fetchall()
+
+    if rows != []:
+        return rows[0][0]
+    else:
+        return None
