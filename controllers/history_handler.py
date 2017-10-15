@@ -1,7 +1,10 @@
 import telepot
 import math
+import yaml
+
 NO_ENTRIES_REQUESTED_MESSAGE = "0 entries request!"
 NO_ENTIRES_AVAILABLE_MESSAGE = "There are no transactions recorded"
+config = yaml.safe_load(open("../config.yml"))
 
 '''
     Returns a list of recent transactions in chronological order limited to numEntries
@@ -10,7 +13,7 @@ NO_ENTIRES_AVAILABLE_MESSAGE = "There are no transactions recorded"
 '''
 def history_handler(user_id, args):
     # Initialisation of bot
-    paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
+    paybot = telepot.Bot(config["telegram"]["TOKEN"])
     # Check for non-null arguments
     if args is None:
         paybot.sendMessage(user_id, USAGE_MESSAGE)

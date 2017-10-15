@@ -2,14 +2,15 @@ import telepot
 import Database
 from utilities import isReceiving
 import math
+import yaml
 
 USAGE_MESSAGE = "`/loan <user>` to display loans to one user, `/loan` to display all"
 NO_LOANS_MESSAGE = "You have not loaned anyone anything."
+config = yaml.safe_load(open("../config.yml"))
 
 def loan_handler(user_id, arguments):
     # Initialisation of bot
-    paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
-
+    paybot = telepot.Bot(config["telegram"]["TOKEN"])
 
     # initialise database
     db = Database.Database()

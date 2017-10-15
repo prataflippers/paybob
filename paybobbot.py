@@ -1,12 +1,14 @@
 import time
 import telepot
+import yaml
 
 from telepot.loop import MessageLoop
 from Database import Database
 from controllers.parse_message import parse_handler
 
 # Initial setup
-paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
+config = yaml.safe_load(open("config.yml"))
+paybot = telepot.Bot(config["telegram"]["TOKEN"])
 paybot.getUpdates(offset=100)
 
 def handler(msg):

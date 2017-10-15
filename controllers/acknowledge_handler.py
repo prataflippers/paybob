@@ -1,13 +1,15 @@
 import Database
 import telepot
+import yaml
 
 # Messages
 USAGE_MESSAGE = "Usage: `/acknowledge <user>` to acknowledge payment from user, `/acknowledge` to acknowledge all incoming payments"
 USER_NOT_FOUND = "Either specified user does not exist or is currently not using the bot. Please request for him/her to add @paybob"
+config = yaml.safe_load(open("../config.yml"))
 
 def acknowledge_handler(user_id, arguments):
     # Initialize bot and database helpers
-    paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
+    paybot = telepot.Bot(config["telegram"]["TOKEN"])
     db = Database.Database()
 
     # Handle acknowledgement

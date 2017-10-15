@@ -1,14 +1,16 @@
 import Database
 import telepot
+import yaml
 
 # Messages
 USAGE_MESSAGE = "Usage: `/give <user> <amount>` to pay specified user the stipulated amount"
 USER_NOT_FOUND = "Either specified user does not exist or is currently not using the bot. Please request for him/her to add @paybob. Forward the following message to him/her:"
 NEW_USER_ADD = "{} wants to connect with you on PayBob. Click on this link (t.me/paybobbot) to add PayBob to your telegram."
+config = yaml.safe_load(open("../config.yml"))
 
 def give_handler(user_id, arguments):
     # Initialize bot and database helpers
-    paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
+    paybot = telepot.Bot(config["telegram"]["TOKEN"])
     db = Database.Database()
 
     # Handle paying

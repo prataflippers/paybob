@@ -3,3 +3,4 @@
 *.sqlite
 .vscode/settings.json
 .DS_Store
+config.yml
