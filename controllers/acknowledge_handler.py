@@ -18,7 +18,7 @@ def acknowledge_handler(user_id, arguments):
         payee = db.getUsername(user_id)
         if (arguments == None):
             print(1)
-            payer_id = None;
+            payer_id = None
             payeeMessage = ""
             allReceipts = db.getAllPending(payee)
             for receipt in allReceipts:
