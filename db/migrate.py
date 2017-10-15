@@ -1,3 +1,9 @@
+def migrate(self):
+    self.makeUsersTable()
+    self.makeReceiptsTable()
+    self.makeTotalsTable()
+    self.makePendingTable()
+
 def usersTable(self):
     makeUserandIDtable = """CREATE TABLE IF NOT EXISTS user (
                             id Integer PRIMARY KEY AUTOINCREMENT,

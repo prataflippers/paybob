@@ -15,10 +15,3 @@ def create_table(self, conn, create_table_statement):
         cursor.execute(create_table_statement)
     except Error as e:
         print(e)
-
-def setup(self):
-
-    self.makeUsersTable()
-    self.makeReceiptsTable()
-    self.makeTotalsTable()
-    self.makePendingTable()

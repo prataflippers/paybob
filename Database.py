@@ -1,36 +1,21 @@
 import sqlite3
 from sqlite3 import Error
-from db.databaseSetup import initialise, create_table, setup
-from db.databaseCreateTables import usersTable, receiptsTable, pendingTable, totalsTable
-from db.userTable import addUser, getChatID, getUsername
-from db.pendingTable import insertPending, getPending, getAllPending, deleteAllPending
-from db.totalTable import owesToList, moneyOwed, addEntryToTotals, updateTotals, getTotalsEntryId
-from db.historyQueries import selfHistory, payingHistory, receivingHistory, transactionHistory, history
-from db.receiptTable import checkReciptsTable, addReceipt, incrementReceipt, decrementReceipt, paidEverything
-from db.totalsQuery import owesMoneyTo, hasNotPaid
+from db.setup import initialise
+from db.migrate import migrate
+from db.users_table import addUser, getChatID, getUsername
+from db.pendings_table import insertPending, getPending, getAllPending, deleteAllPending
+from db.totals_table import owesToList, moneyOwed, addEntryToTotals, updateTotals, getTotalsEntryId
+from db.history_queries import selfHistory, payingHistory, receivingHistory, transactionHistory, history
+from db.receipts_table import checkReciptsTable, addReceipt, incrementReceipt, decrementReceipt, paidEverything
+from db.totals_queries import owesMoneyTo, hasNotPaid
 
 class Database:
 
     def __init__(self, databaseFile = "payBob.sqlite"):
         initialise(self, databaseFile = "payBob.sqlite")
 
-    def create_table(self, conn, create_table_statement):
-        create_table(self, conn, create_table_statement)
-
     def setup(self):
-        setup(self)
-
-    def makeUsersTable(self):
-        usersTable(self)
-
-    def makeReceiptsTable(self):
-        receiptsTable(self)
-
-    def makePendingTable(self):
-        pendingTable(self)
-
-    def makeTotalsTable(self):
-        totalsTable(self)
+        migrate(self)
 
     def insertPending(self, payer, payee, description, amount):
         insertPending(self, payer, payee, description, amount)
