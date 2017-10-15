@@ -10,6 +10,7 @@ def loan_handler(user_id, arguments):
     # Initialisation of bot
     paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
 
+
     # initialise database
     db = Database.Database()
     user = db.getUsername(user_id)
@@ -24,26 +25,29 @@ def loan_handler(user_id, arguments):
         amount = db.moneyOwed(user, transactee)
         paybot.sendMessage(user_id, single_loan_message(transactee, amount))
     else:
+        print(user)
         loans = db.hasNotPaid(user)
 
         print(loans)
         db.printTable("user")
-        if loans == None:
+        if loans == []:
             paybot.sendMessage(user_id, NO_LOANS_MESSAGE)
         else:
             message = "Loans:"
             counter = 1
             for loan in loans:
                 (transactee, amount) = loan
-                message += "\n" + str(counter) + ". " + single_loan_message(username, amount)
+                message += "\n" + str(counter) + ". " + single_loan_message(user, amount)
                 counter += 1
             paybot.sendMessage(user_id, message)
     return
 
 
 def single_loan_message(transactee, amount):
+    if amount == 0:
+        return transactee + " owes you nothing."
     if isReceiving(amount):
         return transactee + " owes me $" + str(amount)
     else:
         absAmount = math.fabs(amount)
-        return "I owe " + transactee + " $" + str(amount)
+        return transactee + " owes me nothing. In fact, I owe " + transactee + " $" + str(amount)
