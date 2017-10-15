@@ -1,6 +1,18 @@
 # PayBob
 
-This is a Telegram Bot to enable easy money tracking between any two users.
+## User Guide
+
+This is a Telegram Bot to enable easy money tracking between two users. Find it at **t.me/paybob.**
+
+## Developer Guide
+
+### Dependencies
+- **Python 3.6**
+- **pip 9.0**
+- **pip packages:**
+  - telepot (12.3)
+  - urllib3 (1.22)
+  - requests (2.18.4)
 
 ### Application Commands
 
@@ -50,3 +62,5 @@ This are the commands that are usable with the PayBobBot
 - `paidEverything(payerUsername, payeeUsername):` Clears all records between the payer and payee
 
 - `transactionHistory(payerUsername, payeeUsername):` Returns a list of transactions between payer and payee. The amount is positive if payer paid and negative if payee paid. Return type: `[(Description, Amount)]`
+
+#### NOTE: Please do not misuse the API-token which can be found at various parts of the code. It will be reset and abstracted away in a gitignored config file after the end of iNTUition 2017.
