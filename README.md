@@ -16,14 +16,14 @@ This is a Telegram Bot to enable easy money tracking between two users. Find it 
 
 ### Application Commands
 
-This are the commands that are usable with the PayBobBot
+These are the commands that are usable with the PayBobBot
 
-- `/add recepient_name amount` Documents the debt of `amount` to `recipient_name`
-- `/give recepient_name amount` Documents the payment of `amount` to `recipient_name`
-- `/history number_of_entries recipient` Requests for the transaction history between `recipient` up to `number_of_entries`
-- `/history all` Requests for your entire transaction history
-- `/loans recipient_name` Request for your loan history with `recipient_name`
-- `/loans` Request for your entire loan history
+- `/add recepient_name amount:` Documents the debt of `amount` to `recipient_name`
+- `/give recepient_name amount:` Documents the payment of `amount` to `recipient_name`
+- `/history number_of_entries recipient:` Requests for the transaction history between `recipient` up to `number_of_entries`
+- `/history all:` Requests for your entire transaction history
+- `/loans recipient_name:` Request for your loan history with `recipient_name`
+- `/loans:` Request for your entire loan history
 
 ### Database API
 #### Initialise Database:
