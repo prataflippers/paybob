@@ -1,4 +1,3 @@
-# PayBob
 <p align="center">
   <img src="https://user-images.githubusercontent.com/23443586/31586777-66de891a-b208-11e7-9ce8-5c3752c60014.png" width=650 height=250>
 </p>
