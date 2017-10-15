@@ -80,7 +80,6 @@ def history_handler(user_id, args):
         counter += 1
     paybot.sendMessage(user_id, message)
     return
->>>>>>> f29ea2c9fa148db6fb84c513d2efcc749b1be4da
 '''
     Creates an individual paying message for history handler
         Integer index:      index of the entry

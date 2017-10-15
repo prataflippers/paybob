@@ -37,4 +37,4 @@ def parse_handler(user_id, message):
     elif command == "retract":
         retract_handler(user_id, arguments)
     else:
-        paybot.sendMessage(user_id, "Invalid Command from %d" % user_id)
+        paybot.sendMessage(user_id, "Invalid Command")

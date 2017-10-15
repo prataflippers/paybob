@@ -19,17 +19,20 @@ def acknowledge_handler(user_id, arguments):
             payeeMessage = ""
             allReceipts = db.getAllPending(payee)
             for receipt in allReceipts:
-                payer_id = db.getChatID(receipt[1])
-                db.incrementReceipt(receipt[1], receipt[2], receipt[3], receipt[4])
+                payer = receipt[1]
+                payee = receipt[2]
+                description = receipt[3]
+                amount = receipt[4]
+                payer_id = db.getChatID(payer)
+                db.incrementReceipt(payer, payee, description, amount)
                 db.deleteAllPending(payee)
-                paybot.sendMessage(payer_id, payer_message(receipt[4], receipt[2], receipt[2]))
-                payeeMessage += payee_message(receipt[4], receipt[1], receipt[3]) + "\n"
+                paybot.sendMessage(payer_id, payer_message(amount, payee, description))
+                payeeMessage += payee_message(amount, payer, description) + "\n"
             paybot.sendMessage(user_id, payeeMessage)
         else:
             payer = arguments[0]
             payer_id = db.getChatID(payer)
             if (db.getChatID(payee) == None):
-                print(2)
                 paybot.sendMessage(user_id, USER_NOT_FOUND)
             else:
                 print(3)
@@ -37,9 +40,9 @@ def acknowledge_handler(user_id, arguments):
                 receipt = db.getPending(payer, payee)[0]
                 description = receipt[3]
                 amount = receipt[4]
-                db.incrementReceipt(receipt[1], receipt[2], receipt[3], receipt[4])
-                paybot.sendMessage(user_id, payee_message(receipt[4], receipt[2], receipt[3]))
-                paybot.sendMessage(payer_id, "Payment of ${} to {} acknowledged\nDescription: {}".format(receipt[4], receipt[1], receipt[2]))
+                db.incrementReceipt(payer, payee, description, amount)
+                paybot.sendMessage(user_id, payee_message(amount, payee, description))
+                paybot.sendMessage(payer_id, "Payment of ${} to {} acknowledged\nDescription: {}".format(amount, payer, payee))
     except Exception as e:
         print(5)
         paybot.sendMessage(user_id, USAGE_MESSAGE)
