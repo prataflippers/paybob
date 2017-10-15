@@ -20,12 +20,11 @@ def acknowledge_handler(user_id, arguments):
         elif (db.getChatID(payee) == None):
             paybot.sendMessage(user_id, USER_NOT_FOUND)
         elif(float(amount)):
-            # Create decrementReceipt and update total
+            # Create decrementReceipt
             db.decrementReceipt(payer, payee, float(amount), "")
-            db.updateTotals(payer, payee, float(amount))
             payer_id = db.getChatID(payer)
-            paybot.sendMessage(user_id, "Successfully acknowledged payment of %s from %s" % (amount, payee))
-            paybot.sendMessage(payer_id, "Payment of {} to {} acknowledged".format(amount, payee))
+            paybot.sendMessage(user_id, "Successfully acknowledged payment of $%s from %s" % (amount, payee))
+            paybot.sendMessage(payer_id, "Payment of ${} to {} acknowledged".format(amount, payee))
         else:
             paybot.sendMessage(user_id, USAGE_MESSAGE)
     except Exception as e:

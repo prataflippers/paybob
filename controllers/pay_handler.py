@@ -15,12 +15,14 @@ def pay_handler(user_id, arguments):
         payer = db.getUsername(user_id)
         payee = arguments[0]
         amount = arguments[1]
+        description = " ".join(arguments[2:])
         payee_id = db.getChatID(payee)
         if (len(arguments) < 2):
             paybot.sendMessage(user_id, USAGE_MESSAGE)
         elif (db.getChatID(payee) == None):
             paybot.sendMessage(user_id, USER_NOT_FOUND)
         elif(float(amount) > 0):
+            # db.insertPending(payer, payee, description, amount)
             toAcknowledgeMessage = "To acknowledge {}'s payment of ${}, type `/acknowledge {} {} <description>`".format(payer, amount, payer, amount)
             paybot.sendMessage(payee_id, toAcknowledgeMessage)
             waitingForAcknowledgeMessage = "Waiting for acknowledgement of payment of ${} to {}".format(amount, payee)
