@@ -10,19 +10,21 @@ def add_handler(user_id, arguments):
     paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
     db = Database.Database()
 
-    # For testing
-    print("Current user: " + db.getUsername(user_id))
-    print("Other user: " + arguments[0])
-
     # Handle add
     try:
-        if (len(arguments) < 2):
+        if (len(arguments) < 3):
             paybot.sendMessage(user_id, USAGE_MESSAGE)
-        elif (db.getChatID(arguments[0]) == None):
-            paybot.sendMessage(user_id, USER_NOT_FOUND)
-        elif(float(arguments[1])):
-            paybot.sendMessage("Successfully added %s to %s" % (arguments[1], arguments[0]))
         else:
-            paybot.sendMessage(user_id, USAGE_MESSAGE)
+            payer = db.getUsername(user_id)
+            payee = arguments[0]
+            amount = arguments[1]
+            description = arguments[2]
+            if (db.getChatID(payee) == None):
+                paybot.sendMessage(user_id, USER_NOT_FOUND)
+            elif(float(amount) > 0):
+                paybot.sendMessage(user_id, "Successfully added receipt:\nLoaned ${} to {}".format(amount, payee))
+                db.addReceipt(payer, payee, description, amount)
+            else:
+                paybot.sendMessage(user_id, USAGE_MESSAGE)
     except:
         paybot.sendMessage(user_id, USAGE_MESSAGE)
