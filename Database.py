@@ -57,22 +57,29 @@ class Database:
         self.create_table(self.conn, makePending)
 
     def insertPending(self, payer, payee, description, amount):
-            makeReceipt = "INSERT INTO receipt(payer, payee, description, amount) VALUES (?, ?, ?, ?);"
-            arguments = (payer, payee, description, amount)
-            cursor = self.conn.cursor()
-            cursor.execute(makeReceipt, arguments)
+        print("Insert pending")
+        makeReceipt = "INSERT INTO pending(payer, payee, description, amount) VALUES (?, ?, ?, ?);"
+        arguments = (payer, payee, description, amount)
+        cursor = self.conn.cursor()
+        cursor.execute(makeReceipt, arguments)
+        self.conn.commit()
 
     def getPending(self, payer, payee):
+        print("Get Pending")
         getPending = "SELECT * FROM pending WHERE payer=? AND payee=?;"
         arguments = (payer, payee)
         cursor = self.conn.cursor()
-        cursor.execute(makeReceipt, arguments)
+        cursor.execute(getPending, arguments)
+        print("Printing table")
+        self.printTable("pending")
+        print("Printing table done")
 
         rows = cursor.fetchall()
-        list[]
+        list = []
+        print(len(rows))
         if rows != []:
             for row in rows:
-                list.append(str(row))
+                list.append(row)
         else:
             return None
 
@@ -80,20 +87,28 @@ class Database:
 
     def getAllPending(self, payee):
         getPending = "SELECT * FROM pending WHERE payee=?;"
-        arguments = (payee)
+        arguments = (payee,)
         cursor = self.conn.cursor()
-        cursor.execute(makeReceipt, arguments)
+        cursor.execute(getPending, arguments)
 
         rows = cursor.fetchall()
 
-        list[]
+        list = []
         if rows != []:
             for row in rows:
-                list.append(str(row))
+                list.append(row)
         else:
             return None
 
+        self.conn.commit()
         return list
+
+    def deleteAllPending(self, payee):
+        deleteQuery = "DELETE FROM pending WHERE payee=?;"
+        arguments = (payee,)
+        cursor = self.conn.cursor()
+        cursor.execute(deleteQuery, arguments)
+        self.conn.commit()
 
 
     def checkReciptsTable(self):
@@ -467,6 +482,7 @@ def main():
     db.addReceipt("Haozhe", "Junkai", "Dabao", 4.50)
     db.addReceipt("Junkai", "Haozhe", "Dabao", 60)
     db.addReceipt("Haozhe", "Junkai", "Dabao", 200)
+    db.addReceipt("shitian95", "Haozhe321", "Dabao", 200)
 
     print("Self-history:")
     db.selfHistory("Junkai")
@@ -485,9 +501,9 @@ def main():
     # print(" ")
     # db.paidEverything("Haozhe", "Shitian")
     # print("  ")
-    #
+    
     # db.transactionHistory("Haozhe", "Junkai")
-    #
+    
     # print(" ")
     # db.printTable("total")
 
