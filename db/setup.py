@@ -4,7 +4,7 @@ from sqlite3 import Error
 def initialise(self, databaseFile = "payBob.sqlite"):
     try:
         self.databaseFile = databaseFile
-        self.conn = sqlite3.connect(databaseFile)
+        self.conn = sqlite3.connect(databaseFile, check_same_thread = False)
     except Error as e:
         print(e)
 
