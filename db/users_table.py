@@ -4,7 +4,6 @@ def addUser(self, username, chatId):
     cursor = self.conn.cursor()
     cursor.execute(addUser, arguments)
     self.conn.commit()
-    print("Added user {}: {} to the database".format(username, chatId))
 
 def getChatID(self, name):
     selectCommand = "SELECT chatID FROM user WHERE username=?"

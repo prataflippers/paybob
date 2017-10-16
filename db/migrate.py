@@ -1,4 +1,4 @@
-from setup import create_table
+from db.setup import create_table
 
 def migrate(self):
     connection = self.conn
