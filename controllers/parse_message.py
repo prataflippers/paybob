@@ -5,6 +5,7 @@ from controllers.history_handler import history_handler
 from controllers.loan_handler import loan_handler
 from controllers.give_handler import give_handler
 from controllers.retract_handler import retract_handler
+from controllers.start_handler import start_handler
 import telepot
 import Database
 
