@@ -6,7 +6,6 @@ def addUser(self, username, chatId):
     self.conn.commit()
     print("Added user {}: {} to the database".format(username, chatId))
 
-
 def getChatID(self, name):
     selectCommand = "SELECT chatID FROM user WHERE username=?"
     arguments = (name,)
@@ -31,3 +30,16 @@ def getUsername(self, chatId):
         return rows[0][0]
     else:
         return None
+
+def userExists(self, chatId):
+    selectCommand = "SELECT id FROM user WHERE chatID=?"
+    arguments = (chatId,)
+    cursor = self.conn.cursor()
+    cursor.execute(selectCommand, arguments)
+
+    rows = cursor.fetchall()
+
+    if rows != []:
+        return True
+    else:
+        return False

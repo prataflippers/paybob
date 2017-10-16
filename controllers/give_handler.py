@@ -8,7 +8,7 @@ NEW_USER_ADD = "{} wants to connect with you on PayBob. Click on this link (t.me
 
 def give_handler(user_id, arguments):
     # Initialize bot and database helpers
-    paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
+    paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
     db = Database.Database()
 
     # Handle paying

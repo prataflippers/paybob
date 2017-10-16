@@ -1,69 +1,58 @@
 import sqlite3
 from sqlite3 import Error
-from db.databaseSetup import initialise, create_table, setup
-from db.databaseCreateTables import usersTable, receiptsTable, pendingTable, totalsTable
-from db.userTable import addUser, getChatID, getUsername
-from db.pendingTable import insertPending, getPending, getAllPending, deleteAllPending
-from db.totalTable import owesToList, moneyOwed, addEntryToTotals, updateTotals, getTotalsEntryId
-from db.historyQueries import selfHistory, payingHistory, receivingHistory, transactionHistory, history
-from db.receiptTable import checkReciptsTable, addReceipt, incrementReceipt, decrementReceipt, paidEverything
-from db.totalsQuery import owesMoneyTo, hasNotPaid
+from db.setup import initialise
+from db.migrate import migrate
+from db.users_table import addUser, getChatID, getUsername, userExists
+from db.pendings_table import insertPending, getPending, getAllPending, deleteAllPending
+from db.totals_table import owesToList, moneyOwed, addEntryToTotals, updateTotals, getTotalsEntryId
+from db.history_queries import selfHistory, payingHistory, receivingHistory, transactionHistory, history
+from db.receipts_table import checkReciptsTable, addReceipt, incrementReceipt, decrementReceipt, paidEverything
+from db.totals_queries import owesMoneyTo, hasNotPaid
 
 class Database:
 
     def __init__(self, databaseFile = "payBob.sqlite"):
         initialise(self, databaseFile = "payBob.sqlite")
 
-    def create_table(self, conn, create_table_statement):
-        create_table(self, conn, create_table_statement)
-
-    def setup(self):
-        setup(self)
-
-    def makeUsersTable(self):
-        usersTable(self)
-
-    def makeReceiptsTable(self):
-        receiptsTable(self)
-
-    def makePendingTable(self):
-        pendingTable(self)
-
-    def makeTotalsTable(self):
-        totalsTable(self)
+    def migrate(self):
+        migrate(self)
 
     def insertPending(self, payer, payee, description, amount):
         insertPending(self, payer, payee, description, amount)
 
     def getPending(self, payer, payee):
-        getPending(self, payer, payee)
+        return getPending(self, payer, payee)
 
     def getAllPending(self, payee):
-        getAllPending(self, payee)
+        return getAllPending(self, payee)
 
     def deleteAllPending(self, payee):
-        deleteAllPending(self, payee)
+        return deleteAllPending(self, payee)
 
     def checkReciptsTable(self):
-        checkReciptsTable(self)
+        return checkReciptsTable(self)
 
     def addUser(self, username, chatId):
+        self.printTable("user")
         addUser(self, username, chatId)
 
+    def userExists(self, chatId):
+        return userExists(self, chatId)
+
     def getChatID(self, name):
-        getChatID(self, name)
+        return getChatID(self, name)
 
     def getUsername(self, chatId):
-        getUsername(self, chatId)
+        return getUsername(self, chatId)
 
     def selfHistory(self, username):
-        selfHistory(self, username)
+        return selfHistory(self, username)
 
     def owesToList(self, payer):
-        owesToList(self, payer)
+        return owesToList(self, payer)
 
     def moneyOwed(self, payer, payee):
-        moneyOwed(self, payer, payee)
+        return moneyOwed(self, payer, payee)
 
     def addEntryToTotals(self, payer, payee, amount):
         addEntryToTotals(self, payer, payee, amount)
@@ -72,22 +61,22 @@ class Database:
         updateTotals(self, payer, payee, amount)
 
     def getTotalsEntryId(self, payer, payee):
-        getTotalsEntryId(self, payer, payee)
+        return getTotalsEntryId(self, payer, payee)
 
     def payingHistory(self, username):
-        payingHistory(self, username)
+        return payingHistory(self, username)
 
     def receivingHistory(self, username):
-        receivingHistory(self, username)
+        return receivingHistory(self, username)
 
     def addReceipt(self, payer, payee, description, amount):
         addReceipt(self, payer, payee, description, amount)
 
     def owesMoneyTo(self, username):
-        owesMoneyTo(self, username)
+        return owesMoneyTo(self, username)
 
     def hasNotPaid(self, username):
-        hasNotPaid(self, username)
+        return hasNotPaid(self, username)
 
     def incrementReceipt(self, payerUsername, payeeUsername, description, amount):
         incrementReceipt(self, payerUsername, payeeUsername, description, amount)
@@ -99,10 +88,10 @@ class Database:
         paidEverything(self, payerUsername, payeeUsername)
 
     def history(self, payer):
-        history(self, payer)
+        return history(self, payer)
 
     def transactionHistory(self, payer, payee):
-        transactionHistory(self, payer, payee)
+        return transactionHistory(self, payer, payee)
 
     def printTable(self, tableName):
         selectAll = "SELECT * FROM {}".format(tableName)

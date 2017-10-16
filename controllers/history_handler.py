@@ -1,7 +1,10 @@
 import telepot
 import math
+import Database
+
 NO_ENTRIES_REQUESTED_MESSAGE = "0 entries request!"
 NO_ENTIRES_AVAILABLE_MESSAGE = "There are no transactions recorded"
+USAGE_MESSAGE = "Usage: `/history <Number of Entries>` OR /history all"
 
 '''
     Returns a list of recent transactions in chronological order limited to numEntries
@@ -10,7 +13,7 @@ NO_ENTIRES_AVAILABLE_MESSAGE = "There are no transactions recorded"
 '''
 def history_handler(user_id, args):
     # Initialisation of bot
-    paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
+    paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
     # Check for non-null arguments
     if args is None:
         paybot.sendMessage(user_id, USAGE_MESSAGE)

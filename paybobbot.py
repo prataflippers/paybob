@@ -6,23 +6,20 @@ from Database import Database
 from controllers.parse_message import parse_handler
 
 # Initial setup
-paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
+paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
 paybot.getUpdates(offset=100)
 
-def handler(msg):
+# Initialse Database
+db = Database()
+db.migrate()
+
+def receiver(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
-
-    # Add user to database if s/he does not exist
-    db = Database()
-    db.setup()
-    if (db.getUsername(chat_id) == None):
-        db.addUser(msg["chat"]["username"], chat_id)
-
     if content_type == 'text':
-        parse_handler(chat_id, msg['text'])
+        parse_handler(chat_id, msg["chat"]["username"], msg['text'])
 
 # Run loop
-MessageLoop(paybot, handler).run_as_thread()
+MessageLoop(paybot, receiver).run_as_thread()
 
 while 1:
     time.sleep(100)
