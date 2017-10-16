@@ -1,5 +1,4 @@
 def insertPending(self, payer, payee, description, amount):
-    print("Insert pending")
     makeReceipt = "INSERT INTO pending(payer, payee, description, amount) VALUES (?, ?, ?, ?);"
     arguments = (payer, payee, description, amount)
     cursor = self.conn.cursor()
@@ -7,18 +6,14 @@ def insertPending(self, payer, payee, description, amount):
     self.conn.commit()
 
 def getPending(self, payer, payee):
-    print("Get Pending")
     getPending = "SELECT * FROM pending WHERE payer=? AND payee=?;"
     arguments = (payer, payee)
     cursor = self.conn.cursor()
     cursor.execute(getPending, arguments)
-    print("Printing table")
     self.printTable("pending")
-    print("Printing table done")
 
     rows = cursor.fetchall()
     list = []
-    print(len(rows))
     if rows != []:
         for row in rows:
             list.append(row)

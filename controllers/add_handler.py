@@ -7,7 +7,7 @@ USER_NOT_FOUND = "Either specified user does not exist or is currently not using
 
 def add_handler(user_id, arguments):
     # Initialize bot and database helpers
-    paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
+    paybot = telepot.Bot("452146569:AAG0SaDSKuvln4Qks1aj52BdA7P3-hvz9gM")
     db = Database.Database()
 
     # Handle add

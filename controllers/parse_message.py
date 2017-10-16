@@ -8,9 +8,11 @@ from retract_handler import retract_handler
 from start_handler import start_handler
 import telepot
 import Database
+import Logger
 
+logger = Logger.Logger()
 db = Database.Database()
-paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
+paybot = telepot.Bot("452146569:AAG0SaDSKuvln4Qks1aj52BdA7P3-hvz9gM")
 
 
 def parse_handler(user_id, username, message):
@@ -23,6 +25,9 @@ def parse_handler(user_id, username, message):
     # Initialisation of bot
     command = message.split(' ')[0][1:]
     arguments = message.split(' ')[1:] if len(message.split(' ')) > 1 else None
+
+    # Logging
+    logger.command_run(message, username, user_id)
 
     try:
         if db.userExists(user_id):
@@ -53,12 +58,10 @@ def parse_handler(user_id, username, message):
 
     except Exception as e:
         message_admins(e, user_id, username, message)
-        print(e)
+        logger.warning(e)
 
 def message_admins(exception, user_id, username, message):
     EXCEPTION_TRIGGERED_MESSAGE = "Dear admin of @paybobbot, an exception has been triggered by {}. The exception message is: {}. "
     EXCEPTION_CAUSING_MESSAGE = "The message which cause the exception was: {}".format(message)
-    admin_ids = [229191458, 197340571]
     user = username + ": " + str(user_id)
-    for id in admin_ids:
-        paybot.sendMessage(id, EXCEPTION_TRIGGERED_MESSAGE.format(user, str(exception)) + EXCEPTION_CAUSING_MESSAGE)
+    logger.notify_admins(EXCEPTION_TRIGGERED_MESSAGE.format(user, str(exception)) + EXCEPTION_CAUSING_MESSAGE)

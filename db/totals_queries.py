@@ -17,9 +17,6 @@ def owesMoneyTo(self, username):
     for row in rows:
         list.append((row[0], -1 * row[1]))
 
-    print(username + " owes the following people money")
-    print(list)
-    print("  ")
     return list
 
 #returns a list of all the people that owe 'username' money and how much they owe
@@ -40,7 +37,4 @@ def hasNotPaid(self, username):
     for row in rows:
         list.append((str(row[0]), row[1]))
 
-    print("THE FOLLOWING PEOPLE OWE " + username + " MONEY")
-    print(list)
-    print("  ")
     return list

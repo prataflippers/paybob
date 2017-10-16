@@ -9,7 +9,6 @@ def owesToList(self, payer):
 
     listOfLoaners = []
     for row in rows:
-        print(row[1])
         listOfLoaners.append((row[1], row[3]))
     return listOfLoaners
 
