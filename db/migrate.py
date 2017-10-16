@@ -1,19 +1,21 @@
-def migrate(self):
-    self.makeUsersTable()
-    self.makeReceiptsTable()
-    self.makeTotalsTable()
-    self.makePendingTable()
+from setup import create_table
 
-def usersTable(self):
+def migrate(self):
+    connection = self.conn
+    usersTable(connection)
+    receiptsTable(connection)
+    pendingTable(connection)
+    totalsTable(connection)
+
+def usersTable(connection):
     makeUserandIDtable = """CREATE TABLE IF NOT EXISTS user (
                             id Integer PRIMARY KEY AUTOINCREMENT,
                             username Text NOT NULL UNIQUE,
                             chatID Integer NOT NULL UNIQUE
                         );"""
-    self.create_table(self.conn, makeUserandIDtable)
+    create_table(connection, makeUserandIDtable)
 
-
-def receiptsTable(self):
+def receiptsTable(connection):
     makeReceipts = """CREATE TABLE IF NOT EXISTS receipt (
                         id Integer PRIMARY KEY AUTOINCREMENT,
                         payer Integer NOT NULL,
@@ -22,9 +24,9 @@ def receiptsTable(self):
                         amount Float NOT NULL
 
                     );"""
-    self.create_table(self.conn, makeReceipts)
+    create_table(connection, makeReceipts)
 
-def pendingTable(self):
+def pendingTable(connection):
     makePending = """CREATE TABLE IF NOT EXISTS pending (
                         id Integer PRIMARY KEY AUTOINCREMENT,
                         payer Integer NOT NULL,
@@ -32,13 +34,13 @@ def pendingTable(self):
                         description Text,
                         amount Float NOT NULL
                     );"""
-    self.create_table(self.conn, makePending)
+    create_table(connection, makePending)
 
-def totalsTable(self):
+def totalsTable(connection):
     makeTotals = """CREATE TABLE IF NOT EXISTS total (
                             id Integer PRIMARY KEY AUTOINCREMENT,
                             payer Integer NOT NULL,
                             payee Integer NOT NULL,
                             amount Float NOT NULL
                 );"""
-    self.create_table(self.conn, makeTotals)
+    create_table(connection, makeTotals)

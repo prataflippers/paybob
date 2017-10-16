@@ -9,7 +9,7 @@ def initialise(self, databaseFile = "payBob.sqlite"):
         print(e)
 
 
-def create_table(self, conn, create_table_statement):
+def create_table(conn, create_table_statement):
     try:
         cursor = conn.cursor()
         cursor.execute(create_table_statement)
