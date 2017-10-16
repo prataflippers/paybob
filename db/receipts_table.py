@@ -7,7 +7,7 @@ def checkReciptsTable(self):
     rows = cursor.fetchall()
 
     if rows != []:
-        print(rows[0])
+        return rows[0]
     else:
         return None
 

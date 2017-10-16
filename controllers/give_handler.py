@@ -1,14 +1,17 @@
 import Database
 import telepot
+import Logger
+
+logger = Logger.Logger()
 
 # Messages
 USAGE_MESSAGE = "Usage: `/give <user> <amount>` to pay specified user the stipulated amount"
 USER_NOT_FOUND = "Either specified user does not exist or is currently not using the bot. Please request for him/her to add @paybobbot. Forward the following message to him/her:"
-NEW_USER_ADD = "{} wants to connect with you on PayBob. Click on this link (t.me/paybobbot) to add PayBob to your telegram."
+NEW_USER_ADD = "@{} wants to connect with you on PayBob. Click on this link (t.me/paybobbot) to add PayBob to your telegram."
 
 def give_handler(user_id, arguments):
     # Initialize bot and database helpers
-    paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
+    paybot = telepot.Bot("452146569:AAG0SaDSKuvln4Qks1aj52BdA7P3-hvz9gM")
     db = Database.Database()
 
     # Handle paying
@@ -17,11 +20,8 @@ def give_handler(user_id, arguments):
         amount = arguments[1]
         payer = db.getUsername(user_id)
         payee = arguments[0]
-        print("Payee " + payee)
         amount = arguments[1]
-        print("Amount " + amount)
         description = " ".join(arguments[2:])
-        print("Description " + description)
         payee_id = db.getChatID(payee)
         if (len(arguments) < 2):
             paybot.sendMessage(user_id, USAGE_MESSAGE)
@@ -38,3 +38,5 @@ def give_handler(user_id, arguments):
             paybot.sendMessage(user_id, USAGE_MESSAGE)
     except Exception as e:
         paybot.sendMessage(user_id, USAGE_MESSAGE)
+        logger.notify_admins(e)
+        logger.warning(e)

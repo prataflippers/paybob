@@ -1,5 +1,8 @@
 import Database
 import telepot
+import Logger
+
+logger = Logger.Logger()
 
 # Messages
 USAGE_MESSAGE = "Usage: `/acknowledge <user>` to acknowledge payment from user, `/acknowledge` to acknowledge all incoming payments"
@@ -7,7 +10,7 @@ USER_NOT_FOUND = "Either specified user does not exist or is currently not using
 
 def acknowledge_handler(user_id, arguments):
     # Initialize bot and database helpers
-    paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
+    paybot = telepot.Bot("452146569:AAG0SaDSKuvln4Qks1aj52BdA7P3-hvz9gM")
     db = Database.Database()
 
     # Handle acknowledgement
@@ -46,7 +49,8 @@ def acknowledge_handler(user_id, arguments):
                 paybot.sendMessage(payer_id, "Payment of ${} to {} acknowledged\nDescription: {}".format(amount, payer, payee))
     except Exception as e:
         paybot.sendMessage(user_id, USAGE_MESSAGE)
-        print(e)
+        logger.notify_admins(e)
+        logger.warning(e)
 
 def payee_message(amount, payer, description):
     return "Successfully acknowledged payment of ${} from {}\nDescription: {}".format(amount, payer, description)

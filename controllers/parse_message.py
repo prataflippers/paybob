@@ -8,7 +8,9 @@ from controllers.retract_handler import retract_handler
 from controllers.start_handler import start_handler
 import telepot
 import Database
+import Logger
 
+logger = Logger.Logger()
 db = Database.Database()
 paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
 
@@ -24,10 +26,13 @@ def parse_handler(user_id, username, message):
     command = message.split(' ')[0][1:]
     arguments = message.split(' ')[1:] if len(message.split(' ')) > 1 else None
 
+    # Logging
+    logger.command_run(message, username, user_id)
+
     try:
         if db.userExists(user_id):
             if command == "start":
-                start_handler(user_id, arguments)
+                start_handler(user_id, username, arguments)
             elif command == "acknowledge":
                 acknowledge_handler(user_id, arguments)
             elif command == "add":
@@ -53,14 +58,10 @@ def parse_handler(user_id, username, message):
 
     except Exception as e:
         message_admins(e, user_id, username, message)
-        print(e)
+        logger.warning(e)
 
 def message_admins(exception, user_id, username, message):
     EXCEPTION_TRIGGERED_MESSAGE = "Dear admin of @paybobbot, an exception has been triggered by {}. The exception message is: {}. "
-    EXCEPTION_CAUSING_MESSAGE = "The message which cause the exception was: {} ".format(message)
-    STATUS_URL = "https://dashboard.heroku.com/apps/paybob/deploy/github"
-    REDEPLOY_MESSAGE = "To check the status or re-deploy, visit: {}.".format(STATUS_URL)
-    admin_ids = [229191458, 197340571]
+    EXCEPTION_CAUSING_MESSAGE = "The message which cause the exception was: {}".format(message)
     user = username + ": " + str(user_id)
-    for id in admin_ids:
-        paybot.sendMessage(id, EXCEPTION_TRIGGERED_MESSAGE.format(user, str(exception)) + EXCEPTION_CAUSING_MESSAGE + REDEPLOY_MESSAGE)
+    logger.notify_admins(EXCEPTION_TRIGGERED_MESSAGE.format(user, str(exception)) + EXCEPTION_CAUSING_MESSAGE)

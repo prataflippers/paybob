@@ -14,7 +14,7 @@ ALREADY_STARTED_MESSAGE = "You are already using PayBob!"
 
 def start_handler(user_id, username, arguments):
     # Initialize bot and database helpers
-    paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
+    paybot = telepot.Bot("452146569:AAG0SaDSKuvln4Qks1aj52BdA7P3-hvz9gM")
     db = Database.Database()
 
     if (arguments is None):

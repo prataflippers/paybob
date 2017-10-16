@@ -113,7 +113,4 @@ def transactionHistory(self, payer, payee):
     sorted_list = sorted(list, key=lambda x: x[0])
     list_without_ids = (map((lambda x: (x[1], x[2])) , sorted_list))
 
-    print("These are the transactions between " + payer + " and " + payee)
-    print(list_without_ids)
-    print("  ")
     return list_without_ids
