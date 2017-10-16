@@ -27,7 +27,7 @@ def parse_handler(user_id, username, message):
     try:
         if db.userExists(user_id):
             if command == "start":
-                start_handler(user_id, arguments)
+                start_handler(user_id, username, arguments)
             elif command == "acknowledge":
                 acknowledge_handler(user_id, arguments)
             elif command == "add":
