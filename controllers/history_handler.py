@@ -1,7 +1,10 @@
 import telepot
 import math
+import Database
+
 NO_ENTRIES_REQUESTED_MESSAGE = "0 entries request!"
 NO_ENTIRES_AVAILABLE_MESSAGE = "There are no transactions recorded"
+USAGE_MESSAGE = "Usage: `/history <Number of Entries>` OR /history all"
 
 '''
     Returns a list of recent transactions in chronological order limited to numEntries

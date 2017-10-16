@@ -2,7 +2,7 @@ import sqlite3
 from sqlite3 import Error
 from db.setup import initialise
 from db.migrate import migrate
-from db.users_table import addUser, getChatID, getUsername
+from db.users_table import addUser, getChatID, getUsername, userExists
 from db.pendings_table import insertPending, getPending, getAllPending, deleteAllPending
 from db.totals_table import owesToList, moneyOwed, addEntryToTotals, updateTotals, getTotalsEntryId
 from db.history_queries import selfHistory, payingHistory, receivingHistory, transactionHistory, history
@@ -14,7 +14,7 @@ class Database:
     def __init__(self, databaseFile = "payBob.sqlite"):
         initialise(self, databaseFile = "payBob.sqlite")
 
-    def setup(self):
+    def migrate(self):
         migrate(self)
 
     def insertPending(self, payer, payee, description, amount):
@@ -35,6 +35,9 @@ class Database:
     def addUser(self, username, chatId):
         self.printTable("user")
         addUser(self, username, chatId)
+
+    def userExists(self, chatId):
+        return userExists(self, chatId)
 
     def getChatID(self, name):
         return getChatID(self, name)
