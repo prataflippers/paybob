@@ -3,7 +3,7 @@ import telepot
 
 # Messages
 USAGE_MESSAGE = "Usage: `/give <user> <amount>` to pay specified user the stipulated amount"
-USER_NOT_FOUND = "Either specified user does not exist or is currently not using the bot. Please request for him/her to add @paybob. Forward the following message to him/her:"
+USER_NOT_FOUND = "Either specified user does not exist or is currently not using the bot. Please request for him/her to add @paybobbot. Forward the following message to him/her:"
 NEW_USER_ADD = "{} wants to connect with you on PayBob. Click on this link (t.me/paybobbot) to add PayBob to your telegram."
 
 def give_handler(user_id, arguments):
@@ -38,4 +38,3 @@ def give_handler(user_id, arguments):
             paybot.sendMessage(user_id, USAGE_MESSAGE)
     except Exception as e:
         paybot.sendMessage(user_id, USAGE_MESSAGE)
-        print(e)
