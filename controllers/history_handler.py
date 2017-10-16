@@ -10,7 +10,7 @@ NO_ENTIRES_AVAILABLE_MESSAGE = "There are no transactions recorded"
 '''
 def history_handler(user_id, args):
     # Initialisation of bot
-    paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
+    paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
     # Check for non-null arguments
     if args is None:
         paybot.sendMessage(user_id, USAGE_MESSAGE)

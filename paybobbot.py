@@ -6,7 +6,7 @@ from Database import Database
 from controllers.parse_message import parse_handler
 
 # Initial setup
-paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
+paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
 paybot.getUpdates(offset=100)
 
 def handler(msg):

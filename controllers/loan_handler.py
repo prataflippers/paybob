@@ -8,7 +8,7 @@ NO_LOANS_MESSAGE = "You have not loaned anyone anything."
 
 def loan_handler(user_id, arguments):
     # Initialisation of bot
-    paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
+    paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
 
 
     # initialise database

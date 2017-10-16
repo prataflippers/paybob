@@ -5,7 +5,7 @@ USER_NOT_FOUND = "Either specified user does not exist or is currently not using
 
 def debt_handler(user_id, arguments):
     # Initialize bot and database helpers
-    paybot = telepot.Bot("452146569:AAEdRQMubxBqRpSWYFs931wnUFja8vdHIIQ")
+    paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
     db = Database.Database()
 
     # Handle paying
