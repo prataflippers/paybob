@@ -3,7 +3,7 @@ import telepot
 
 # Messages
 USAGE_MESSAGE = "Usage: `/add <user> <amount>` to add a someone who owes you $$$"
-USER_NOT_FOUND = "Either specified user does not exist or is currently not using the bot. Please request for him/her to add @paybob"
+USER_NOT_FOUND = "Either specified user does not exist or is currently not using the bot. Please request for him/her to add @paybobbot"
 
 def add_handler(user_id, arguments):
     # Initialize bot and database helpers

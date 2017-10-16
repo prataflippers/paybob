@@ -9,7 +9,7 @@ COMMANDS = """/add recepient_name amount: Documents the debt of amount to recipi
 /history all: Requests for your entire transaction history
 /loans recipient_name: Request for your loan history with recipient_name
 /loans: Request for your entire loan history"""
-WELCOME_BACK_MESSAGE = "Welcome Back to @paybob! We are constantly improving our services to help you better!"
+WELCOME_BACK_MESSAGE = "Welcome Back to @paybobbot! We are constantly improving our services to help you better!"
 ALREADY_STARTED_MESSAGE = "You are already using PayBob!"
 
 def start_handler(user_id, username, arguments):
