@@ -1,12 +1,13 @@
-import acknowledge_handler
-import add_handler
-import debt_handler
-import history_handler
-import loan_handler
-import give_handler
-import retract_handler
-
+from acknowledge_handler import acknowledge_handler
+from add_handler import add_handler
+from debt_handler import debt_handler
+from history_handler import history_handler
+from loan_handler import loan_handler
+from give_handler import give_handler
+from retract_handler import retract_handler
+import telepot
 import Database
+
 db = Database.Database()
 
 def parse_handler(user_id, message):
@@ -16,6 +17,8 @@ def parse_handler(user_id, message):
     message: string
     RETURN TYPE: void
     '''
+    # Initialisation of bot
+    paybot = telepot.Bot("452146569:AAFd8H6aj0ifJIpVT_zfxlSad8WOBUSjU2c")
     command = message.split(' ')[0][1:]
     arguments = message.split(' ')[1:] if len(message.split(' ')) > 1 else None
     if command == "acknowledge":
@@ -33,4 +36,4 @@ def parse_handler(user_id, message):
     elif command == "retract":
         retract_handler(user_id, arguments)
     else:
-        telepot.sendMessage(user_id, "Invalid Command")
+        paybot.sendMessage(user_id, "Invalid Command")
