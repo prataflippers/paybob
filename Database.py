@@ -21,34 +21,35 @@ class Database:
         insertPending(self, payer, payee, description, amount)
 
     def getPending(self, payer, payee):
-        getPending(self, payer, payee)
+        return getPending(self, payer, payee)
 
     def getAllPending(self, payee):
-        getAllPending(self, payee)
+        return getAllPending(self, payee)
 
     def deleteAllPending(self, payee):
-        deleteAllPending(self, payee)
+        return deleteAllPending(self, payee)
 
     def checkReciptsTable(self):
-        checkReciptsTable(self)
+        return checkReciptsTable(self)
 
     def addUser(self, username, chatId):
+        self.printTable("user")
         addUser(self, username, chatId)
 
     def getChatID(self, name):
-        getChatID(self, name)
+        return getChatID(self, name)
 
     def getUsername(self, chatId):
-        getUsername(self, chatId)
+        return getUsername(self, chatId)
 
     def selfHistory(self, username):
-        selfHistory(self, username)
+        return selfHistory(self, username)
 
     def owesToList(self, payer):
-        owesToList(self, payer)
+        return owesToList(self, payer)
 
     def moneyOwed(self, payer, payee):
-        moneyOwed(self, payer, payee)
+        return moneyOwed(self, payer, payee)
 
     def addEntryToTotals(self, payer, payee, amount):
         addEntryToTotals(self, payer, payee, amount)
@@ -57,22 +58,22 @@ class Database:
         updateTotals(self, payer, payee, amount)
 
     def getTotalsEntryId(self, payer, payee):
-        getTotalsEntryId(self, payer, payee)
+        return getTotalsEntryId(self, payer, payee)
 
     def payingHistory(self, username):
-        payingHistory(self, username)
+        return payingHistory(self, username)
 
     def receivingHistory(self, username):
-        receivingHistory(self, username)
+        return receivingHistory(self, username)
 
     def addReceipt(self, payer, payee, description, amount):
         addReceipt(self, payer, payee, description, amount)
 
     def owesMoneyTo(self, username):
-        owesMoneyTo(self, username)
+        return owesMoneyTo(self, username)
 
     def hasNotPaid(self, username):
-        hasNotPaid(self, username)
+        return hasNotPaid(self, username)
 
     def incrementReceipt(self, payerUsername, payeeUsername, description, amount):
         incrementReceipt(self, payerUsername, payeeUsername, description, amount)
@@ -84,10 +85,10 @@ class Database:
         paidEverything(self, payerUsername, payeeUsername)
 
     def history(self, payer):
-        history(self, payer)
+        return history(self, payer)
 
     def transactionHistory(self, payer, payee):
-        transactionHistory(self, payer, payee)
+        return transactionHistory(self, payer, payee)
 
     def printTable(self, tableName):
         selectAll = "SELECT * FROM {}".format(tableName)
