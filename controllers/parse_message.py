@@ -6,6 +6,7 @@ from controllers.loan_handler import loan_handler
 from controllers.give_handler import give_handler
 from controllers.retract_handler import retract_handler
 from controllers.start_handler import start_handler
+from controllers.admin_handler import admin_handler
 import telepot
 import Database
 import Logger
@@ -47,6 +48,8 @@ def parse_handler(user_id, username, message):
                 give_handler(user_id, arguments)
             elif command == "retract":
                 retract_handler(user_id, arguments)
+            elif command == "admin":
+                admin_handler(user_id, arguments)
             else:
                 paybot.sendMessage(user_id, "Invalid Command")
         else:
