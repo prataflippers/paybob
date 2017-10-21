@@ -79,5 +79,6 @@ def receiver(msg):
 def message_admins(exception, user_id, username, message):
     EXCEPTION_TRIGGERED_MESSAGE = "Dear admin of @paybobbot, an exception has been triggered by {}. The exception message is: {}. "
     EXCEPTION_CAUSING_MESSAGE = "The message which cause the exception was: {}".format(message)
+    HEROKU_LINK_MESSAGE = "Check the issue at https://dashboard.heroku.com/apps/paybob/deploy/github"
     user = username + ": " + str(user_id)
     logger.notify_admins(EXCEPTION_TRIGGERED_MESSAGE.format(user, str(exception)) + EXCEPTION_CAUSING_MESSAGE)

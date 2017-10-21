@@ -1,6 +1,5 @@
 import telepot
 import Database
-from utilities import isReceiving
 import math
 
 USAGE_MESSAGE = "`/admin <chatID> <message>`"
