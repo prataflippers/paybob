@@ -13,7 +13,7 @@ db = Database.Database()
 
 def loan_handler(user_id, arguments):
     # Initialisation of bot
-    paybot = telepot.Bot("452146569:AAG0SaDSKuvln4Qks1aj52BdA7P3-hvz9gM")
+    paybot = telepot.Bot("452146569:AAH0sXMgA9rtZe7j83L6RqqLU0qbo0sY12w")
     user = db.getUsername(user_id)
 
     if arguments is None:
