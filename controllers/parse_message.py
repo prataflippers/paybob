@@ -63,6 +63,19 @@ def parse_handler(user_id, username, message):
         message_admins(e, user_id, username, message)
         logger.warning(e)
 
+        # Re-run the server
+        paybot.getUpdates(offset=100)
+        MessageLoop(paybot, receiver).run_as_thread()
+
+        while 1:
+            time.sleep(100)
+
+def receiver(msg):
+    content_type, chat_type, chat_id = telepot.glance(msg)
+    if content_type == 'text':
+        parse_handler(chat_id, msg["chat"]["username"], msg['text'])
+
+
 def message_admins(exception, user_id, username, message):
     EXCEPTION_TRIGGERED_MESSAGE = "Dear admin of @paybobbot, an exception has been triggered by {}. The exception message is: {}. "
     EXCEPTION_CAUSING_MESSAGE = "The message which cause the exception was: {}".format(message)
