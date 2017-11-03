@@ -23,6 +23,4 @@ def admin_handler(admin_user_id, arguments):
         for arg in arguments[2:]:
             message += " " + arg
 
-        print(customer_id)
-        print(message)
         paybot.sendMessage(customer_id, message)
