@@ -8,7 +8,6 @@ USAGE_MESSAGE = "`/admin <chatID> <message>`"
 # Initialise database
 db = Database.Database()
 
-
 def admin_handler(admin_user_id, arguments):
 
     # Initialisation of bot

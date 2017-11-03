@@ -5,7 +5,6 @@ import math
 
 USAGE_MESSAGE = "`/loan <user>` to display loans to one user, `/loan` to display all"
 NO_LOANS_MESSAGE = "You have not loaned anyone anything."
-INVALID_USER_MESSAGE = "The username of the user should start with @."
 
 # Initialise database
 db = Database.Database()
