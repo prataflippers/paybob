@@ -1,7 +1,11 @@
+# Messages
+from messages import USER_NOT_FOUND
+
+# Modules
 import telepot
 import Database
+
 USAGE_MESSAGE = "`/debt <user>` to display amount owed to user, `/debt` to show current debt to all"
-USER_NOT_FOUND = "Either specified user does not exist or is currently not using the bot. Please request for him/her to add @paybobbot"
 
 def debt_handler(user_id, arguments):
     # Initialize bot and database helpers
@@ -21,7 +25,7 @@ def debt_handler(user_id, arguments):
             allLoans += print_debt(payer, loaner, debtOwed)
         paybot.sendMessage(user_id, allLoans)
     elif (db.getChatID(arguments[0]) == None):
-        paybot.sendMessage(user_id, USER_NOT_FOUND)
+        paybot.sendMessage(user_id, USER_NOT_FOUND.format(arguments[0]))
     else:
         payee = arguments[0]
         debtOwed = db.getTotalsEntryId(payer, payee)

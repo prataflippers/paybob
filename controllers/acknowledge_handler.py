@@ -1,12 +1,13 @@
+# Messages
+from messages import USER_NOT_FOUND
+
+# Modules
 import Database
 import telepot
 import Logger
 
 logger = Logger.Logger()
-
-# Messages
 USAGE_MESSAGE = "Usage: `/acknowledge <user>` to acknowledge payment from user, `/acknowledge` to acknowledge all incoming payments"
-USER_NOT_FOUND = "Either specified user does not exist or is currently not using the bot. Please request for him/her to add @paybobbot"
 
 def acknowledge_handler(user_id, arguments):
     # Initialize bot and database helpers
@@ -37,7 +38,7 @@ def acknowledge_handler(user_id, arguments):
             payer = arguments[0]
             payer_id = db.getChatID(payer)
             if (db.getChatID(payee) == None):
-                paybot.sendMessage(user_id, USER_NOT_FOUND)
+                paybot.sendMessage(user_id, USER_NOT_FOUND.format(payee))
             else:
                 # Get pending receipt and create decrementReceipt
                 receipt = db.getPending(payer, payee)[0]

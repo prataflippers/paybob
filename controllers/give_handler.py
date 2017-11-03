@@ -1,13 +1,14 @@
+# Messages
+from messages import USER_NOT_FOUND
+from messages import NEW_USER_ADD
+
+# Modules
 import Database
 import telepot
 import Logger
 
 logger = Logger.Logger()
-
-# Messages
 USAGE_MESSAGE = "Usage: `/give <user> <amount>` to pay specified user the stipulated amount"
-USER_NOT_FOUND = "Either specified user does not exist or is currently not using the bot. Please request for him/her to add @paybobbot. Forward the following message to him/her:"
-NEW_USER_ADD = "@{} wants to connect with you on PayBob. Click on this link (t.me/paybobbot) to add PayBob to your telegram."
 
 def give_handler(user_id, arguments):
     # Initialize bot and database helpers
@@ -26,7 +27,7 @@ def give_handler(user_id, arguments):
         if (len(arguments) < 2):
             paybot.sendMessage(user_id, USAGE_MESSAGE)
         elif (db.getChatID(payee) == None):
-            paybot.sendMessage(user_id, USER_NOT_FOUND)
+            paybot.sendMessage(user_id, USER_NOT_FOUND.format(payee))
             paybot.sendMessage(user_id, NEW_USER_ADD.format(payer))
         elif(float(amount) > 0):
             db.insertPending(payer, payee, description, amount)
