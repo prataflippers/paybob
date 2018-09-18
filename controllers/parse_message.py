@@ -8,7 +8,7 @@ import telepot
 import Logger
 
 logger = Logger.Logger()
-paybot = telepot.Bot("692962436:AAEZJzURlDIYNE_HLCLjglJGe7fR_DwDQ3E")
+paybot = telepot.Bot("692962436:AAHOeT1VqRcAboPEBEaJjYKRfvJ9Mj9xCMw")
 
 
 def parse_handler(user_id, username, message):

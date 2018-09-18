@@ -3,7 +3,7 @@ import telepot
 class Logger:
 
     def __init__(self):
-        self.paybot = telepot.Bot("692962436:AAEZJzURlDIYNE_HLCLjglJGe7fR_DwDQ3E")
+        self.paybot = telepot.Bot("692962436:AAHOeT1VqRcAboPEBEaJjYKRfvJ9Mj9xCMw")
 
 
     def print_to_console(self, msg):
