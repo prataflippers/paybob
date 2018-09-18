@@ -5,11 +5,9 @@ from messages import EXCEPTION_CAUSING_MESSAGE
 
 # Modules
 import telepot
-# import Database
 import Logger
 
 logger = Logger.Logger()
-# db = Database.Database()
 paybot = telepot.Bot("692962436:AAEZJzURlDIYNE_HLCLjglJGe7fR_DwDQ3E")
 
 
