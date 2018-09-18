@@ -48,5 +48,6 @@ def timeInTimezone(timezone_name):
     return zone_time.strftime('%H:%m hours on %d/%m/%Y')
 
 def message_admins(exception, user_id, username, message):
+    print(message)
     # user = username + ": " + str(user_id)
     # logger.notify_admins(EXCEPTION_TRIGGERED_MESSAGE.format(user, str(exception)) + EXCEPTION_CAUSING_MESSAGE)
