@@ -1,0 +1,11 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[packages]
+telepot = "12.3"
+urllib3 = "1.22"
+requests = "2.18.4"
+
+[requires]
+python_version = "3.6"

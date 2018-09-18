@@ -1,11 +1,14 @@
 [[source]]
-url = "https://pypi.python.org/simple"
+url = "https://pypi.org/simple"
 verify_ssl = true
+name = "pypi"
+
+[dev-packages]
 
 [packages]
-telepot = "12.3"
-urllib3 = "1.22"
-requests = "2.18.4"
+telepot = "*"
+requests = "*"
+"urllib3" = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "2.7"
