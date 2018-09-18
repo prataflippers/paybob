@@ -1,1 +1,1 @@
-web: python paybobbot.py
+worker: python paybobbot.py
