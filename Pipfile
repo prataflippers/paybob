@@ -9,6 +9,7 @@ name = "pypi"
 telepot = "*"
 requests = "*"
 "urllib3" = "*"
+pytz = "*"
 
 [requires]
 python_version = "2.7"
